@@ -22,6 +22,9 @@ export default defineConfig([
       '**/vite.config.ts',
       '**/LICENSE',
       '**/.gitignore',
+      '**/.env',
+      '**/.env.production',
+      '**/.env.example',
     ],
   },
   {
