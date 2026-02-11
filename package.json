@@ -2,7 +2,11 @@
   "name": "operations-erp",
   "version": "0.0.1",
   "description": "**OperationsERP** is an educational project motivated by my code-related studies. The goal is to have a fully working application running on the web that allows you to manage your company along with **employee management, project/task management, work logs, invoice system and audit logs**. This project was made with the goal of polishing my server-sided skills as well and finish my first project with a user-died interface.",
+  "private": true,
+  "workspaces": [ "frontend", "backend" ],
   "scripts": {
+    "prettier-check": "npx prettier --check .",
+    "prettier-write": "npx prettier --write .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -14,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/barbosacaio/operations-erp/issues"
   },
-  "homepage": "https://github.com/barbosacaio/operations-erp#readme"
+  "homepage": "https://github.com/barbosacaio/operations-erp#readme",
+  "devDependencies": {
+    "prettier": "3.8.1"
+  }
 }
