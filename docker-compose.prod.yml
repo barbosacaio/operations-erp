@@ -1,0 +1,19 @@
+services:
+  frontend:
+    build:
+      target: production
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - ./frontend/.env.production
+    ports:
+      - "${PORT:-5173}:5173"
+  backend:
+    build:
+      target: production
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - ./backend/.env.production
+    ports:
+      - "${PORT:-80}:3000"

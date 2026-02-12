@@ -23,8 +23,11 @@ export default defineConfig([
       '**/LICENSE',
       '**/.gitignore',
       '**/.env',
-      '**/.env.production',
-      '**/.env.example',
+      '**/.env.*',
+      '**/Dockerfile',
+      '**/docker-compose.yml',
+      '**/docker-compose.*.yml',
+      '**/.dockerignore',
     ],
   },
   {

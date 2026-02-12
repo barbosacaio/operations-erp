@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "0.0.1",
   "description": "**OperationsERP** is an educational project motivated by my code-related studies. The goal is to have a fully working application running on the web that allows you to manage your company along with **employee management, project/task management, work logs, invoice system and audit logs**. This project was made with the goal of polishing my server-sided skills as well and finish my first project with a user-died interface.",
-  "main": "app.ts",
+  "main": "server.ts",
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
@@ -22,11 +22,13 @@
   },
   "homepage": "https://github.com/barbosacaio/operations-erp#readme",
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@types/node": "^25.2.3",
+    "eslint": "^9.39.2",
     "nodemon": "^3.1.11",
     "typescript-eslint": "^8.55.0"
   },
   "dependencies": {
-    "@eslint/js": "^10.0.1"
+    "serve": "^14.2.5"
   }
 }

@@ -74,6 +74,25 @@
 
 - [Clone the repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
 
+- Create a ``.env`` file based on the ``.env.example`` of both ``/backend`` and ``frontend``. The file name also needs to be adjusted based on which environment you want to run
+  - **Back-end**
+    - Development environment: ``.env``
+    - Production environment: ``.env.production``
+    - Test environment: ``.env.test``
+  - **Front-end**
+    - Development environment: ``.env``
+    - Production environment: ``.env.production``
+
+- Initiate Docker for the environment you selected
+  - **Development** environment: ``npm run docker:dev``
+  - **Production** environment: ``npm run docker:prod``
+  - **Test** environment: ``npm run docker:test``
+
+- You can also stop Docker or check information with:
+  - **Stop** containers: ``npm run docker:down``
+  - **Stop** containers and **remove volumes**: ``npm run docker:down:volumes``
+  - **Follow logs** in real time: ``npm run docker:logs``
+
 - ...
 
 ## 👤 Author
