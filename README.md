@@ -93,6 +93,8 @@
   - **Stop** containers and **remove volumes**: ``npm run docker:down:volumes``
   - **Follow logs** in real time: ``npm run docker:logs``
 
+- Docker will automatically configure the database based on its environment commands. If you'd like to run it locally, this is configured by default as well. Configure the correspondent ``.env`` file for the environment you chose, and ensure the ``DATABASE_URL`` has your correct credentials and database information
+
 - ...
 
 ## 👤 Author

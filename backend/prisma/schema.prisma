@@ -1,0 +1,28 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+model WorkspaceOwner {
+    id String @id @default(uuid())
+    name String
+    email String @unique
+    passwordHash String
+    createdAt DateTime @default(now())
+
+    workspaces Workspace[]
+}
+
+model Workspace {
+    id String @id @default(uuid())
+    name String
+    createdAt DateTime @default(now())
+
+    ownerId String
+    owner WorkspaceOwner @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+    @@index([ownerId])
+}

@@ -25,6 +25,7 @@ CMD ["npm", "run", "test"]
 FROM base AS build
 RUN npm ci
 COPY . .
+RUN npx prisma generate
 RUN npm run build
 
 # Production
