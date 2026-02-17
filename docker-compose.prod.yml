@@ -1,6 +1,5 @@
 services:
   frontend:
-    container_name: frontend-prod
     build:
       target: production
     environment:
@@ -10,7 +9,6 @@ services:
     ports:
       - "${PORT:-5173}:5173"
   backend:
-    container_name: backend-prod
     build:
       target: production
     environment:
@@ -20,7 +18,6 @@ services:
     ports:
       - "${PORT:-80}:3000"
   database:
-    container_name: database-prod
     env_file:
       - ./backend/.env.production
     environment:
@@ -28,7 +25,6 @@ services:
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-adminpassword}
       POSTGRES_DB: ${DATABASE_NAME:-operations_erp_prod}
   studio:
-    container_name: studio-prod
     env_file:
       - ./backend/.env.production
     environment:

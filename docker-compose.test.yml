@@ -1,15 +1,22 @@
 services:
   backend:
-    container_name: backend-test
     build:
       context: ./backend
       target: test
-    environment:
-      - NODE_ENV=test
     env_file:
       - ./backend/.env.test
+    environment:
+      - NODE_ENV=test
+      - DATABASE_URL=postgresql://${DATABASE_USER:-admin}:${DATABASE_PASSWORD:-adminpassword}@${DATABASE_HOST:-database}:${DATABASE_PORT:-5432}/${DATABASE_NAME:-operations_erp_test}
+    depends_on:
+      database:
+        condition: service_healthy
   database:
-    container_name: database-test
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER:-admin}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     env_file:
       - ./backend/.env.test
     environment:

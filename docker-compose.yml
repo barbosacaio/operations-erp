@@ -1,18 +1,23 @@
 services:
   frontend:
+    container_name: frontend
     build:
       context: ./frontend
   backend:
+    container_name: backend
     build:
       context: ./backend
     depends_on:
-      - database
+      database:
+        condition: service_started
   database:
+    container_name: database
     image: postgres:18-alpine
     restart: unless-stopped
     volumes:
       - postgres_data:/var/lib/postgresql/data
   studio:
+    container_name: studio
     image: node:22-alpine
     working_dir: /app
     volumes:
