@@ -2,7 +2,7 @@ import pino from 'pino';
 import dotenv from 'dotenv';
 
 dotenv.config();
-const isProduction = process.env.NODE_ENV === 'production';
+const isDevelopment = process.env.NODE_ENV === 'development';
 
 export const logger = pino({
 	name: process.env.SERVICE_NAME || 'operations-erp-backend',
@@ -13,15 +13,15 @@ export const logger = pino({
 	},
 
 	timestamp: pino.stdTimeFunctions.isoTime,
-	transport: isProduction
-		? undefined
-		: {
+	transport: isDevelopment
+		? {
 				target: 'pino-pretty',
 				options: {
 					colorize: true,
 					translateTime: 'SYS:standard',
 				},
-			},
+			}
+		: undefined,
 
 	serializers: {
 		err: pino.stdSerializers.err,

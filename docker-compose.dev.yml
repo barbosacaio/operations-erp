@@ -1,5 +1,6 @@
 services:
   frontend:
+    container_name: frontend-dev
     build:
       target: development
     environment:
@@ -12,6 +13,7 @@ services:
     ports:
       - "${PORT:-5173}:5173"
   backend:
+    container_name: backend-dev
     build:
       target: development
     environment:
@@ -28,6 +30,7 @@ services:
       - database
 
   database:
+    container_name: database-dev
     env_file:
       - ./backend/.env
     environment:
@@ -37,6 +40,7 @@ services:
     ports:
       - ${DATABASE_PORT:-5432}:5432
   studio:
+    container_name: studio-dev
     env_file:
       - ./backend/.env
     environment:

@@ -74,7 +74,7 @@
 
 - [Clone the repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
 
-- Create a ``.env`` file based on the ``.env.example`` of both ``/backend`` and ``frontend``. The file name also needs to be adjusted based on which environment you want to run
+- Create a ``.env`` file based on the ``.env.example`` of both ``/backend`` and ``/frontend``. The file name also needs to be adjusted based on which environment you want to run
   - **Back-end**
     - Development environment: ``.env``
     - Production environment: ``.env.production``

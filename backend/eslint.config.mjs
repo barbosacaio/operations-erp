@@ -26,6 +26,7 @@ export default defineConfig([
       '**/docker-compose.yml',
       '**/docker-compose.*.yml',
       '**/.dockerignore',
+      '**/.jest.config.ts',
     ],
   },
   {
