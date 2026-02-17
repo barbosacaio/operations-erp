@@ -1,5 +1,5 @@
 import { Logger } from 'pino';
-import { user } from '@prisma/client';
+import { User } from '@prisma/client';
 
 declare global {
 	namespace Express {
