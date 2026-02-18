@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { prisma } from '../database/prisma';
+import { AppError } from '../errors/AppError';
 
 export async function isOwner(req: Request, res: Response, next: NextFunction) {
 	const workspace = await prisma.workspaceUser.findFirst({
@@ -14,11 +15,11 @@ export async function isOwner(req: Request, res: Response, next: NextFunction) {
 	});
 
 	if (!workspace?.id) {
-		throw new Error("This workspace doesn't exist");
+		throw new AppError("This workspace doesn't exist", 404);
 	}
 
 	if (workspace?.role !== 'OWNER') {
-		throw new Error('You are not the owner of this workspace');
+		throw new AppError('You are not the owner of this workspace', 403);
 	}
 
 	return next();

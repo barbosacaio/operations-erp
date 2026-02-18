@@ -56,20 +56,20 @@ describe('Workspace routes', () => {
 			expect(res.statusCode).toBe(200);
 		});
 
-		it('Update workspace without ownership - should return with status 500', async () => {
+		it('Update workspace without ownership - should return with status 403', async () => {
 			const res = await request(app)
 				.put('/workspace/edit?workspaceId=2')
 				.set('Authorization', `Bearer ${token}`)
 				.send({ name: 'Updated Workspace' });
-			expect(res.statusCode).toBe(500);
+			expect(res.statusCode).toBe(403);
 		});
 
-		it('Update inexistent workspace - should return with status 500', async () => {
+		it('Update inexistent workspace - should return with status 404', async () => {
 			const res = await request(app)
 				.put('/workspace/edit?workspaceId=10')
 				.set('Authorization', `Bearer ${token}`)
 				.send({ name: 'Workspace1' });
-			expect(res.statusCode).toBe(500);
+			expect(res.statusCode).toBe(404);
 		});
 	});
 
@@ -81,18 +81,18 @@ describe('Workspace routes', () => {
 			expect(res.statusCode).toBe(204);
 		});
 
-		it('Delete workspace without ownership - should return with status 500', async () => {
+		it('Delete workspace without ownership - should return with status 403', async () => {
 			const res = await request(app)
 				.delete('/workspace/delete?workspaceId=2')
 				.set('Authorization', `Bearer ${token}`);
-			expect(res.statusCode).toBe(500);
+			expect(res.statusCode).toBe(403);
 		});
 
-		it('Delete inexistent workspace - should return with status 500', async () => {
+		it('Delete inexistent workspace - should return with status 404', async () => {
 			const res = await request(app)
 				.delete('/workspace/delete?workspaceId=10')
 				.set('Authorization', `Bearer ${token}`);
-			expect(res.statusCode).toBe(500);
+			expect(res.statusCode).toBe(404);
 		});
 	});
 });

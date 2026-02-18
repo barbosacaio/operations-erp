@@ -33,7 +33,7 @@ describe('Auth routes', () => {
 			expect(res.statusCode).toBe(400);
 		});
 
-		it('Invalid email - should return with status 500', async () => {
+		it('Invalid email - should return with status 400', async () => {
 			const res = await request(app).post('/auth/register').send({
 				name: 'Admin',
 				surname: 'One',
@@ -53,12 +53,12 @@ describe('Auth routes', () => {
 			expect(res.statusCode).toBe(200);
 		});
 
-		it('Wrong password - should return with status 500', async () => {
+		it('Wrong password - should return with status 401', async () => {
 			const res = await request(app).post('/auth/login').send({
 				email: 'wrongemail@example.com',
 				password: 'wrongpassword',
 			});
-			expect(res.statusCode).toBe(500);
+			expect(res.statusCode).toBe(401);
 		});
 
 		it('Short password - should return with status 400', async () => {
