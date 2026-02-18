@@ -6,9 +6,9 @@ describe('Auth routes', () => {
 		it('Create user - should return with status 201', async () => {
 			const res = await request(app).post('/auth/register').send({
 				name: 'Admin',
-				surname: 'One',
-				email: 'admin1@example.com',
-				password: 'admin123',
+				surname: 'Three',
+				email: 'admin3@example.com',
+				password: 'admin789',
 			});
 			expect(res.statusCode).toBe(201);
 		});

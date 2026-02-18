@@ -17,7 +17,15 @@ services:
       - ./backend/.env.production
     ports:
       - "${PORT:-80}:3000"
+    depends_on:
+      database:
+        condition: service_healthy
   database:
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER:-admin} -d ${DATABASE_NAME:-operations_erp_prod}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     env_file:
       - ./backend/.env.production
     environment:

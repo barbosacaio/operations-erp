@@ -7,9 +7,6 @@ services:
     container_name: backend
     build:
       context: ./backend
-    depends_on:
-      database:
-        condition: service_started
   database:
     container_name: database
     image: postgres:18-alpine
