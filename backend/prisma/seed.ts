@@ -38,36 +38,65 @@ async function main() {
 		],
 	});
 
+	const departments = await prisma.department.createMany({
+		data: [
+			{
+				id: '1',
+				name: 'Department1',
+				workspaceId: '1',
+			},
+			{
+				id: '2',
+				name: 'Department2',
+				workspaceId: '1',
+			},
+			{
+				id: '3',
+				name: 'Department3',
+				workspaceId: '2',
+			},
+			{
+				id: '4',
+				name: 'Department4',
+				workspaceId: '2',
+			},
+		],
+	});
+
 	const workspaceUsers = await prisma.workspaceUser.createMany({
 		data: [
 			{
 				id: '1',
 				role: WorkspaceRole.OWNER,
 				userId: '1',
+				departmentId: '1',
 				workspaceId: '1',
 			},
 			{
 				id: '2',
 				role: WorkspaceRole.MEMBER,
 				userId: '2',
+				departmentId: '2',
 				workspaceId: '1',
 			},
 			{
 				id: '3',
-				role: WorkspaceRole.ADMIN,
+				role: WorkspaceRole.MEMBER,
 				userId: '1',
+				departmentId: '3',
 				workspaceId: '2',
 			},
 			{
 				id: '4',
 				role: WorkspaceRole.OWNER,
 				userId: '2',
+				departmentId: '4',
 				workspaceId: '2',
 			},
 		],
 	});
 
-	console.log({ users, workspaces, workspaceUsers });
+	console.log({ users, workspaces, departments, workspaceUsers });
 }
 
 main()

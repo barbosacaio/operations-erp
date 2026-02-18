@@ -18,7 +18,6 @@ export class WorkspaceController {
 		const workspaces = await prisma.workspace.findMany({
 			select: {
 				name: true,
-				createdAt: true,
 			},
 		});
 

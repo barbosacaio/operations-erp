@@ -23,17 +23,20 @@ model Workspace {
     createdAt DateTime @default(now())
 
     users WorkspaceUser[]
+    departments Department[]
 }
 
 model WorkspaceUser {
     id String @id @default(uuid())
     userId String
     workspaceId String
+    departmentId String?
     role WorkspaceRole @default(MEMBER)
     joinedAt DateTime @default(now())
 
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
     workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+    department Department? @relation(fields: [departmentId], references: [id])
 
     @@unique([userId, workspaceId])
 }
@@ -42,4 +45,15 @@ enum WorkspaceRole {
     OWNER
     ADMIN
     MEMBER
+}
+
+model Department {
+    id String @id @default(uuid())
+    name String
+    workspaceId String
+    createdAt DateTime @default(now())
+
+    users WorkspaceUser[]
+
+    workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
 }

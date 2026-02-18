@@ -7,6 +7,7 @@ import { httpLogger } from './middlewares/logger.middleware';
 
 import { authRoutes } from './routes/auth.routes';
 import { workspaceRoutes } from './modules/workspace/workspace.routes';
+import { departmentRoutes } from './modules/department/department.routes';
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.get('/health', (req, res) => {
 // Routes
 app.use('/auth', authRoutes);
 app.use('/workspace', workspaceRoutes);
+app.use('/department', departmentRoutes);
 
 // Error handling middleware
 app.use(errorHandler);

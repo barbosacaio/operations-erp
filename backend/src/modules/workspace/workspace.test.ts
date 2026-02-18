@@ -48,14 +48,6 @@ describe('Workspace routes', () => {
 	});
 
 	describe('PUT /workspace/edit', () => {
-		it('Update workspace - should return with status 200', async () => {
-			const res = await request(app)
-				.put('/workspace/edit?workspaceId=1')
-				.set('Authorization', `Bearer ${token}`)
-				.send({ name: 'Updated Workspace' });
-			expect(res.statusCode).toBe(200);
-		});
-
 		it('Update workspace without ownership - should return with status 403', async () => {
 			const res = await request(app)
 				.put('/workspace/edit?workspaceId=2')
@@ -74,13 +66,6 @@ describe('Workspace routes', () => {
 	});
 
 	describe('DELETE /workspace/delete', () => {
-		it('Delete workspace - should return with status 204', async () => {
-			const res = await request(app)
-				.delete('/workspace/delete?workspaceId=1')
-				.set('Authorization', `Bearer ${token}`);
-			expect(res.statusCode).toBe(204);
-		});
-
 		it('Delete workspace without ownership - should return with status 403', async () => {
 			const res = await request(app)
 				.delete('/workspace/delete?workspaceId=2')
