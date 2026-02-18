@@ -5,6 +5,7 @@ import { WorkspaceRole } from '@prisma/client';
 async function main() {
 	const hashedPassword1 = await hashPassword('admin123');
 	const hashedPassword2 = await hashPassword('admin456');
+	const hashedPassword3 = await hashPassword('admin789');
 
 	const users = await prisma.user.createMany({
 		data: [
@@ -21,6 +22,13 @@ async function main() {
 				surname: 'Two',
 				email: 'admin2@example.com',
 				passwordHash: hashedPassword2,
+			},
+			{
+				id: '3',
+				name: 'Admin',
+				surname: 'Three',
+				email: 'admin3@example.com',
+				passwordHash: hashedPassword3,
 			},
 		],
 	});

@@ -50,11 +50,9 @@ export class DepartmentController {
 		});
 
 		if (department && department.workspaceId === workspaceId) {
-			return res
-				.status(401)
-				.json({
-					error: 'A department with that name already exists on this workspace',
-				});
+			return res.status(401).json({
+				error: 'A department with that name already exists on this workspace',
+			});
 		} else {
 			department = await prisma.department.create({
 				data: {
@@ -106,11 +104,9 @@ export class DepartmentController {
 		if (!department) {
 			throw new AppError('Department not found', 404);
 		} else if (usedName) {
-			return res
-				.status(401)
-				.json({
-					error: 'A department with that name already exists on this workspace',
-				});
+			return res.status(401).json({
+				error: 'A department with that name already exists on this workspace',
+			});
 		} else {
 			department = await prisma.department.update({
 				where: { id: departmentId },
@@ -154,11 +150,9 @@ export class DepartmentController {
 		});
 
 		if (workspaceId !== department?.workspaceId) {
-			return res
-				.status(403)
-				.json({
-					error: "This department doesn't belong to this workspace",
-				});
+			return res.status(403).json({
+				error: "This department doesn't belong to this workspace",
+			});
 		}
 
 		if (!department) {
