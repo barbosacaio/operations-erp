@@ -6,18 +6,6 @@ export class UserController {
 	async listWorkspaceUsers(req: Request, res: Response) {
 		const workspaceId = req.query.workspaceId as string;
 
-		if (!req.user) {
-			return res.status(401).json({ error: 'Unauthorized' });
-		}
-
-		const user = await prisma.user.findUnique({
-			where: { id: req.user.id },
-		});
-
-		if (!user) {
-			return res.status(401).json({ error: 'User not found' });
-		}
-
 		const workspaceUsers = await prisma.workspaceUser.findMany({
 			where: { workspaceId: workspaceId },
 			select: {
@@ -43,18 +31,6 @@ export class UserController {
 		const { email, role } = req.body;
 		const workspaceId = req.query.workspaceId as string;
 		const departmentId = req.query.departmentId as string;
-
-		if (!req.user) {
-			return res.status(401).json({ error: 'Unauthorized' });
-		}
-
-		const user = await prisma.user.findUnique({
-			where: { id: req.user.id },
-		});
-
-		if (!user) {
-			return res.status(401).json({ error: 'User not found ' });
-		}
 
 		const userToBeAdded = await prisma.user.findFirst({
 			where: { email: email },
@@ -119,18 +95,6 @@ export class UserController {
 		const workspaceId = req.query.workspaceId as string;
 		const departmentId = req.query.departmentId as string;
 		const userId = req.query.userId as string;
-
-		if (!req.user) {
-			return res.status(401).json({ error: 'Unauthorized' });
-		}
-
-		const user = await prisma.user.findUnique({
-			where: { id: req.user.id },
-		});
-
-		if (!user) {
-			return res.status(401).json({ error: 'User not found ' });
-		}
 
 		if (
 			!(await prisma.workspaceUser.findFirst({

@@ -4,17 +4,6 @@ import { AppError } from '../../errors/AppError';
 
 export class DepartmentController {
 	async listDepartment(req: Request, res: Response) {
-		if (!req.user) {
-			return res.status(401).json({ error: 'Unauthorized' });
-		}
-
-		const user = await prisma.user.findUnique({
-			where: { id: req.user.id },
-		});
-
-		if (!user) {
-			return res.status(401).json({ error: 'User not found' });
-		}
 
 		const departments = await prisma.department.findMany({
 			select: {
@@ -28,18 +17,6 @@ export class DepartmentController {
 	async createDepartment(req: Request, res: Response) {
 		const { name } = req.body;
 		const workspaceId = req.query.workspaceId as string;
-
-		if (!req.user) {
-			return res.status(401).json({ error: 'Unauthorized' });
-		}
-
-		const user = await prisma.user.findUnique({
-			where: { id: req.user.id },
-		});
-
-		if (!user) {
-			return res.status(401).json({ error: 'User not found' });
-		}
 
 		if (!workspaceId) {
 			return res.status(404).json({ error: 'Workspace not found' });
@@ -69,18 +46,6 @@ export class DepartmentController {
 		const { name } = req.body;
 		const departmentId = req.query.id as string;
 		const workspaceId = req.query.workspaceId as string;
-
-		if (!req.user) {
-			return res.status(401).json({ error: 'Unauthorized' });
-		}
-
-		const user = await prisma.user.findUnique({
-			where: { id: req.user.id },
-		});
-
-		if (!user) {
-			return res.status(401).json({ error: 'User not found ' });
-		}
 
 		if (!departmentId) {
 			return res.status(404).json({ error: 'Department not found' });
@@ -120,18 +85,6 @@ export class DepartmentController {
 	async deleteDepartment(req: Request, res: Response) {
 		const departmentId = req.query.id as string;
 		const workspaceId = req.query.workspaceId as string;
-
-		if (!req.user) {
-			return res.status(401).json({ error: 'Unauthorized' });
-		}
-
-		const user = await prisma.user.findUnique({
-			where: { id: req.user.id },
-		});
-
-		if (!user) {
-			return res.status(401).json({ error: 'User not found ' });
-		}
 
 		if (!departmentId) {
 			return res.status(404).json({ error: 'Department not found' });

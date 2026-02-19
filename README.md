@@ -1,6 +1,6 @@
 # 👥 OperationsERP
 
-**OperationsERP** is an educational project motivated by my code-related studies. The goal is to have a fully working application running on the web that allows you to manage your company along with **employee management, project/task management, work logs, invoice system and audit logs**. This project was made with the goal of polishing my server-sided skills as well and finish my first project with a user-died interface.
+**OperationsERP** is an educational project motivated by my code-related studies. The goal is to have a fully working application running on the web that allows you to manage your company along with **employee management, project/task management, work logs, invoice system and audit logs**. This project was made with the goal of polishing my server-sided skills as well and finish my first project with a user-sided interface.
 
 ## 🏗️ Project Status: `development`
 
