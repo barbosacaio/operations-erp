@@ -54,6 +54,26 @@ model Department {
     createdAt DateTime @default(now())
 
     users WorkspaceUser[]
+    projects Project[]
 
     workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model Project {
+    id String @id @default(uuid())
+    name String
+    description String
+    departmentId String
+    createdAt DateTime @default(now())
+    status ProjectStatus @default(BACKLOG)
+
+    department Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+}
+
+enum ProjectStatus {
+    BACKLOG
+    ONGOING
+    PAUSED
+    FINISHED
+    CANCELLED
 }

@@ -37,4 +37,4 @@ services:
       - ./backend/.env.production
     environment:
       - DATABASE_URL=postgresql://${DATABASE_USER:-admin}:${DATABASE_PASSWORD:-adminpassword}@${DATABASE_HOST:-database}:${DATABASE_PORT:-5432}/${DATABASE_NAME:-operations_erp_prod}
-    command: sh -c "npm install && npx prisma generate && npx prisma migrate deploy && npx prisma studio --port 5555"
+    command: sh -c "npm install && npx prisma generate && npx prisma migrate deploy && npx prisma studio --port 5555 --browser none"
