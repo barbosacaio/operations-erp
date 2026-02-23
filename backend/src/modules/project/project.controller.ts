@@ -5,8 +5,25 @@ import { ProjectStatus } from '@prisma/client';
 
 export class ProjectController {
 	async listProject(req: Request, res: Response) {
+		const departmentId = req.params.departmentId as string;
+		const workspaceId = req.params.workspaceId as string;
+
+		const department = await prisma.department.findUnique({
+			where: { id: departmentId },
+			select: { workspace: { select: { id: true } } },
+		});
+
+		if (!department || department.workspace.id !== workspaceId) {
+			throw new AppError(
+				"This department doesn't belong to this workspace or it doesn't exist",
+				404,
+			);
+		}
 
 		const projects = await prisma.project.findMany({
+			where: {
+				departmentId: departmentId,
+			},
 			select: {
 				name: true,
 				description: true,
@@ -14,8 +31,8 @@ export class ProjectController {
 				department: {
 					select: {
 						name: true,
-					}
-				}
+					},
+				},
 			},
 		});
 
@@ -24,32 +41,27 @@ export class ProjectController {
 
 	async createProject(req: Request, res: Response) {
 		const { name, description, status } = req.body;
-		const departmentId = req.query.departmentId as string;
-		const workspaceId = req.query.workspaceId as string;
+		const departmentId = req.params.departmentId as string;
+		const workspaceId = req.params.workspaceId as string;
 
-		if (!await prisma.department.findUnique({ where: { id: departmentId }},)) {
-			throw new AppError("This department doesn't exist", 404);
-		}
-
-		const workspace = await prisma.department.findUnique({ 
-			where: { id: departmentId }, 
-			select: { workspaceId: true },
-		});
-
-		if (workspace?.workspaceId !== workspaceId) {
+		if (
+			!(await prisma.department.findUnique({
+				where: { id: departmentId, workspaceId: workspaceId },
+			}))
+		) {
 			throw new AppError("This department doesn't exist", 404);
 		}
 
 		const data: {
-			name: string,
-			description: string,
-			status?: ProjectStatus,
-			departmentId: string,
+			name: string;
+			description: string;
+			status?: ProjectStatus;
+			departmentId: string;
 		} = {
 			name: name,
 			description: description,
 			departmentId: departmentId,
-		}
+		};
 
 		if (status) {
 			data.status = status;
@@ -57,68 +69,87 @@ export class ProjectController {
 
 		const project = await prisma.project.create({
 			data,
-		})
+		});
 
 		return res.status(201).json(project);
 	}
 
 	async updateDepartment(req: Request, res: Response) {
 		const { name, description, status } = req.body;
-		const projectId = req.query.projectId as string;
-		const workspaceId = req.query.workspaceId as string;
-		const departmentId = req.query.departmentId as string;
+		const projectId = req.params.projectId as string;
+		const workspaceId = req.params.workspaceId as string;
+		const departmentId = req.params.departmentId as string;
 
-		const project = await prisma.project.findUnique({
-			where: { id: projectId, },
-			include: { department: true, },
-		});
+		if (
+			!(await prisma.department.findUnique({
+				where: { id: departmentId, workspaceId: workspaceId },
+			}))
+		) {
+			throw new AppError(
+				"This department doesn't belong to this workspace or it doesn't exist",
+				404,
+			);
+		}
 
-		if (!project || project.department.workspaceId !== workspaceId) {
-			throw new AppError("This project doesn't exist", 404);
+		if (
+			!(await prisma.project.findUnique({
+				where: { id: projectId, departmentId: departmentId },
+			}))
+		) {
+			throw new AppError(
+				"This project doesn't belong to this department or it doesn't exist",
+				404,
+			);
 		}
 
 		const data: {
-			name?: string,
-			description?: string,
-			status?: ProjectStatus,
-			departmentId?: string,
-		} = {}
+			name: string;
+			description?: string;
+			status?: ProjectStatus;
+			departmentId?: string;
+		} = {
+			name: name,
+			description: description,
+			departmentId: departmentId,
+		};
 
-		if (name) { data.name = name; }
-		if (description) { data.description = description; }
-		if (status) { data.status = status; }
-		if (departmentId) {
-			const isDepartmentInWorkspace = await prisma.department.findUnique({
-				where: { id: departmentId, },
-				include: { workspace: true, },
-			});
-
-			if (isDepartmentInWorkspace?.workspace.id !== workspaceId) {
-				throw new AppError("This department doesn't exist", 404);
-			} else {
-				data.departmentId = departmentId; 
-			}
+		if (status) {
+			data.status = status;
 		}
 
-		const updatedProject = await prisma.project.update({
-			where: { id: projectId, },
+		const project = await prisma.project.update({
+			where: { id: projectId },
 			data,
-		})
+		});
 
-		return res.status(200).json(updatedProject);
+		return res.status(200).json(project);
 	}
 
 	async deleteProject(req: Request, res: Response) {
-		const projectId = req.query.projectId as string;
-		const workspaceId = req.query.workspaceId as string;
+		const projectId = req.params.projectId as string;
+		const departmentId = req.params.departmentId as string;
+		const workspaceId = req.params.workspaceId as string;
 
-		const project = await prisma.project.findUnique({
-			where: { id: projectId, },
-			include: { department: true, },
-		});
+		if (
+			!(await prisma.department.findUnique({
+				where: { id: departmentId, workspaceId: workspaceId },
+			}))
+		) {
+			throw new AppError(
+				"This department doesn't belong to this workspace or it doesn't exist",
+				404,
+			);
+		}
 
-		if (!project || project.department.workspaceId !== workspaceId) {
-			throw new AppError("This project doesn't exist", 404);
+		if (
+			!(await prisma.project.findUnique({
+				where: { id: projectId, departmentId: departmentId },
+			}))
+		) {
+			throw new AppError(
+				"This project doesn't belong to this department or it doesn't exist",
+				404,
+			);
 		}
 
 		await prisma.project.delete({

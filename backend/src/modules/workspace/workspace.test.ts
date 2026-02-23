@@ -47,10 +47,18 @@ describe('Workspace routes', () => {
 		});
 	});
 
-	describe('PUT /workspace/edit', () => {
+	describe('PUT /workspace/:workspaceId/update', () => {
+		it('Update workspace name - should return with status 200', async () => {
+			const res = await request(app)
+				.put('/workspace/1/update')
+				.set('Authorization', `Bearer ${token}`)
+				.send({ name: 'Updated Workspace' });
+			expect(res.statusCode).toBe(200);
+		});
+
 		it('Update workspace without ownership - should return with status 403', async () => {
 			const res = await request(app)
-				.put('/workspace/edit?workspaceId=2')
+				.put('/workspace/2/update')
 				.set('Authorization', `Bearer ${token}`)
 				.send({ name: 'Updated Workspace' });
 			expect(res.statusCode).toBe(403);
@@ -58,24 +66,24 @@ describe('Workspace routes', () => {
 
 		it('Update inexistent workspace - should return with status 404', async () => {
 			const res = await request(app)
-				.put('/workspace/edit?workspaceId=10')
+				.put('/workspace/10/update')
 				.set('Authorization', `Bearer ${token}`)
 				.send({ name: 'Workspace1' });
 			expect(res.statusCode).toBe(404);
 		});
 	});
 
-	describe('DELETE /workspace/delete', () => {
+	describe('DELETE /workspace/:workspaceId/delete', () => {
 		it('Delete workspace without ownership - should return with status 403', async () => {
 			const res = await request(app)
-				.delete('/workspace/delete?workspaceId=2')
+				.delete('/workspace/2/delete')
 				.set('Authorization', `Bearer ${token}`);
 			expect(res.statusCode).toBe(403);
 		});
 
 		it('Delete inexistent workspace - should return with status 404', async () => {
 			const res = await request(app)
-				.delete('/workspace/delete?workspaceId=10')
+				.delete('/workspace/10/delete')
 				.set('Authorization', `Bearer ${token}`);
 			expect(res.statusCode).toBe(404);
 		});

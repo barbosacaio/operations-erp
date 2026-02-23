@@ -10,8 +10,8 @@
     "docker:down": "docker compose down",
     "docker:down:volumes": "docker compose down -v",
     "docker:logs": "docker compose logs -f",
-    "prettier-check": "npx prettier --check .",
-    "prettier-write": "npx prettier --write .",
+    "prettier:check": "npx prettier --check .",
+    "prettier:write": "npx prettier --write .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

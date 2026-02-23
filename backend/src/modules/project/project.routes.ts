@@ -4,21 +4,23 @@ import { ProjectController } from './project.controller';
 import { ensureAuthenticated } from '../../middlewares/ensureAuthenticated.middleware';
 import { isAdmin } from '../../middlewares/isAdmin.middleware';
 import { ensureUserExists } from '../../middlewares/ensureUserExists.middleware';
+import { isInWorkspace } from '../../middlewares/isInWorkspace.middleware';
 
 import { validate } from '../../middlewares/validation.middleware';
 import {
 	createProjectSchema,
 	updateProjectSchema,
-	deleteProjectSchema
+	deleteProjectSchema,
 } from './project.schema';
 
-const projectRoutes = Router();
+const projectRoutes = Router({ mergeParams: true });
 const projectController = new ProjectController();
 
 projectRoutes.get(
 	'/',
 	ensureAuthenticated,
 	ensureUserExists,
+	isInWorkspace,
 	projectController.listProject,
 );
 projectRoutes.post(
@@ -30,7 +32,7 @@ projectRoutes.post(
 	projectController.createProject,
 );
 projectRoutes.put(
-	'/edit',
+	'/:projectId/update',
 	validate(updateProjectSchema),
 	ensureAuthenticated,
 	ensureUserExists,
@@ -38,7 +40,7 @@ projectRoutes.put(
 	projectController.updateDepartment,
 );
 projectRoutes.delete(
-	'/delete',
+	'/:projectId/delete',
 	validate(deleteProjectSchema),
 	ensureAuthenticated,
 	ensureUserExists,
@@ -46,4 +48,4 @@ projectRoutes.delete(
 	projectController.deleteProject,
 );
 
-export { projectRoutes };
+export default projectRoutes;

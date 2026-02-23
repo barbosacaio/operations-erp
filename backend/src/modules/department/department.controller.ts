@@ -4,8 +4,10 @@ import { AppError } from '../../errors/AppError';
 
 export class DepartmentController {
 	async listDepartment(req: Request, res: Response) {
+		const workspaceId = req.params.workspaceId as string;
 
 		const departments = await prisma.department.findMany({
+			where: { workspaceId: workspaceId },
 			select: {
 				name: true,
 			},
@@ -14,107 +16,76 @@ export class DepartmentController {
 		return res.status(200).json(departments);
 	}
 
-	async createDepartment(req: Request, res: Response) {
+	async addDepartment(req: Request, res: Response) {
 		const { name } = req.body;
-		const workspaceId = req.query.workspaceId as string;
+		const workspaceId = req.params.workspaceId as string;
 
-		if (!workspaceId) {
-			return res.status(404).json({ error: 'Workspace not found' });
+		if (
+			await prisma.department.findFirst({
+				where: { name: name, workspaceId: workspaceId },
+			})
+		) {
+			throw new AppError('This department already exists', 409);
 		}
 
-		let department = await prisma.department.findFirst({
-			where: { name: name },
+		const department = await prisma.department.create({
+			data: {
+				name: name,
+				workspaceId: workspaceId,
+			},
 		});
-
-		if (department && department.workspaceId === workspaceId) {
-			return res.status(401).json({
-				error: 'A department with that name already exists on this workspace',
-			});
-		} else {
-			department = await prisma.department.create({
-				data: {
-					name,
-					workspaceId,
-				},
-			});
-		}
 
 		return res.status(201).json(department);
 	}
 
 	async updateDepartment(req: Request, res: Response) {
 		const { name } = req.body;
-		const departmentId = req.query.id as string;
-		const workspaceId = req.query.workspaceId as string;
+		const departmentId = req.params.departmentId as string;
+		const workspaceId = req.params.workspaceId as string;
 
-		if (!departmentId) {
-			return res.status(404).json({ error: 'Department not found' });
+		if (
+			!(await prisma.department.findUnique({
+				where: { id: departmentId, workspaceId: workspaceId },
+			}))
+		) {
+			throw new AppError(
+				"This department doesn't belong to this workspace or it doesn't exist",
+				404,
+			);
 		}
 
-		if (!workspaceId) {
-			return res.status(404).json({ error: 'Workspace not found' });
+		if (
+			await prisma.department.findFirst({
+				where: { name: name, workspaceId: workspaceId },
+			})
+		) {
+			throw new AppError('This department already exists', 409);
 		}
 
-		let department = await prisma.department.findFirst({
+		const department = await prisma.department.update({
 			where: { id: departmentId },
+			data: { name: name },
 		});
-
-		const usedName = await prisma.department.findFirst({
-			where: {
-				name: name,
-				workspaceId: workspaceId,
-			},
-		});
-
-		if (!department) {
-			throw new AppError('Department not found', 404);
-		} else if (usedName) {
-			return res.status(401).json({
-				error: 'A department with that name already exists on this workspace',
-			});
-		} else {
-			department = await prisma.department.update({
-				where: { id: departmentId },
-				data: { name },
-			});
-		}
 
 		return res.status(200).json(department);
 	}
 
 	async deleteDepartment(req: Request, res: Response) {
-		const departmentId = req.query.id as string;
-		const workspaceId = req.query.workspaceId as string;
+		const departmentId = req.params.departmentId as string;
+		const workspaceId = req.params.workspaceId as string;
 
-		if (!departmentId) {
-			return res.status(404).json({ error: 'Department not found' });
+		if (
+			!(await prisma.department.findUnique({
+				where: { id: departmentId, workspaceId: workspaceId },
+			}))
+		) {
+			throw new AppError(
+				"This department doesn't belong to this workspace or it doesn't exist",
+				404,
+			);
 		}
 
-		if (!workspaceId) {
-			return res.status(404).json({ error: 'Workspace not found' });
-		}
-
-		let department = await prisma.department.findFirst({
-			where: { id: departmentId },
-			select: {
-				id: true,
-				workspaceId: true,
-			},
-		});
-
-		if (workspaceId !== department?.workspaceId) {
-			return res.status(403).json({
-				error: "This department doesn't belong to this workspace",
-			});
-		}
-
-		if (!department) {
-			throw new AppError('Department not found', 404);
-		} else {
-			department = await prisma.department.delete({
-				where: { id: departmentId },
-			});
-		}
+		await prisma.department.delete({ where: { id: departmentId } });
 
 		return res.status(204).send();
 	}

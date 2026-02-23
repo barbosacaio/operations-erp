@@ -124,11 +124,11 @@ async function main() {
 				id: '3',
 				name: 'Project 3',
 				description: 'Finish project 3',
-				departmentId: '2',
+				departmentId: '3',
 				status: ProjectStatus.FINISHED,
 			},
-		]
-	})
+		],
+	});
 
 	console.log({ users, workspaces, departments, workspaceUsers, projects });
 }

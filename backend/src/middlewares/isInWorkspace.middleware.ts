@@ -10,7 +10,7 @@ export async function isInWorkspace(
 	const workspace = await prisma.workspaceUser.findFirst({
 		where: {
 			userId: req.user?.id,
-			workspaceId: req.query.workspaceId as string,
+			workspaceId: req.params.workspaceId as string,
 		},
 		select: {
 			id: true,

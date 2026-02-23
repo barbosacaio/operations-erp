@@ -61,14 +61,38 @@
 
 ## 🧱 Data Model
 
-- Company
+- Workspace
 - User
-- Employee
 - Department
 - Project
 - Task
 - Invoice
 - AuditLog
+
+## 🗺️ Endpoints
+- **Auth**
+  - `/auth/register` - Register a new user
+  - `/auth/login` - Login to an existing account
+- **Workspace**
+  - `/workspace` - Lists existing workspaces
+  - `/workspace/add` - Creates a new workspace
+  - `/workspace/:workspaceId/update` - Edits an existing workspace (OWNER)
+  - `/workspace/:workspaceId/delete` - Delete an existing workspace (OWNER)
+- **User**
+  - `/workspace/:workspaceId/user` - Lists users from a workspace
+  - `/workspace/:workspaceId/user/add` - Adds an existing user into a workspace (ADMIN)
+  - `/workspace/:workspaceId/user/:userId/update` - Edit an user from your workspace (ADMIN)
+  - `/workspace/:workspaceId/user/:userId/delete` - Removes an user from your workspace (ADMIN)
+- **Department**
+  - `/workspace/:workspaceId/department` - Lists departments from a workspace
+  - `/workspace/:workspaceId/department/add` Adds a new department into a workspace (ADMIN)
+  - `/workspace/:workspaceId/department/:departmentId/update` - Edit a department from your workspace (ADMIN)
+  - `/workspace/:workspaceId/department/:departmentId/delete` - Deletes an existing department from your workspace (ADMIN)
+- **Project**
+  - `/workspace/:workspaceId/department/:departmentId/project` - Lists projects from a department
+  - `/workspace/:workspaceId/department/:departmentId/project/add` - Adds a new project into a department (ADMIN)
+  - `/workspace/:workspaceId/department/:departmentId/project/:projectId/update` - Edit an existing project from your department (ADMIN)
+  - `/workspace/:workspaceId/department/:departmentId/project/:projectId/delete` - Delete a project from your department (ADMIN)
 
 ## ❔ How To Run
 

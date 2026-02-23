@@ -32,7 +32,7 @@ export class WorkspaceController {
 
 	async updateWorkspace(req: Request, res: Response) {
 		const { name } = req.body;
-		const workspaceId = req.query.workspaceId as string;
+		const workspaceId = req.params.workspaceId as string;
 
 		const workspace = await prisma.workspace.update({
 			where: { id: workspaceId as string },
@@ -43,7 +43,7 @@ export class WorkspaceController {
 	}
 
 	async deleteWorkspace(req: Request, res: Response) {
-		const workspaceId = req.query.workspaceId as string;
+		const workspaceId = req.params.workspaceId as string;
 
 		await prisma.workspace.delete({
 			where: { id: workspaceId as string },

@@ -1,41 +1,45 @@
 import { Request, Response } from 'express';
 import { prisma } from '../../database/prisma';
 import { WorkspaceRole } from '@prisma/client';
+import { AppError } from '../../errors/AppError';
 
 export class UserController {
 	async listWorkspaceUsers(req: Request, res: Response) {
-		const workspaceId = req.query.workspaceId as string;
+		const workspaceId = req.params.workspaceId as string;
 
 		const workspaceUsers = await prisma.workspaceUser.findMany({
 			where: { workspaceId: workspaceId },
-			select: {
-				userId: true,
+			include: {
+				user: true,
+				department: true,
 			},
 		});
 
-		const userIds = workspaceUsers.map((wu) => wu.userId);
-
-		const users = await prisma.user.findMany({
-			where: { id: { in: userIds } },
-			select: {
-				name: true,
-				surname: true,
-				email: true,
-			},
-		});
+		const users = workspaceUsers.map((u) => ({
+			id: u.id,
+			name: u.user.name,
+			surname: u.user.surname,
+			role: u.role,
+			email: u.user.email,
+			department: u.department?.name,
+		}));
 
 		return res.status(200).json(users);
 	}
 
 	async addWorkspaceUser(req: Request, res: Response) {
 		const { email, role } = req.body;
-		const workspaceId = req.query.workspaceId as string;
+		const workspaceId = req.params.workspaceId as string;
 		const departmentId = req.query.departmentId as string;
 
-		const userToBeAdded = await prisma.user.findFirst({
+		const user = await prisma.user.findFirst({
 			where: { email: email },
 			select: { id: true },
 		});
+
+		if (!user) {
+			throw new AppError("This user doesn't exist", 404);
+		}
 
 		const data: {
 			userId: string;
@@ -43,21 +47,19 @@ export class UserController {
 			departmentId?: string;
 			role?: WorkspaceRole;
 		} = {
-			userId: userToBeAdded?.id as string,
+			userId: user?.id as string,
 			workspaceId,
 		};
 
 		if (departmentId) {
 			if (
 				await prisma.department.findFirst({
-					where: { id: departmentId },
+					where: { id: departmentId, workspaceId: workspaceId },
 				})
 			) {
 				data.departmentId = departmentId;
 			} else {
-				return res
-					.status(404)
-					.json({ error: "This department doesn't exist" });
+				throw new AppError("This department doesn't exist", 404);
 			}
 		}
 
@@ -65,22 +67,13 @@ export class UserController {
 			data.role = role;
 		}
 
-		const isAlreadyUser = await prisma.user.findFirst({
-			where: { email: email },
-		});
-
-		if (!isAlreadyUser) {
-			return res.status(404).json({ error: "This user doesn't exist" });
-		}
-
-		const isAlreadyMember = await prisma.workspaceUser.findFirst({
-			where: { userId: isAlreadyUser.id },
-		});
-
-		if (isAlreadyMember) {
-			return res
-				.status(403)
-				.json({ error: 'This user is already part of this workspace' });
+		if (
+			await prisma.workspaceUser.findFirst({ where: { userId: user.id } })
+		) {
+			throw new AppError(
+				'This user is already part of this workspace',
+				409,
+			);
 		}
 
 		const addedUser = await prisma.workspaceUser.create({
@@ -90,22 +83,26 @@ export class UserController {
 		return res.status(200).json(addedUser);
 	}
 
-	async editWorkspaceUser(req: Request, res: Response) {
+	async updateWorkspaceUser(req: Request, res: Response) {
 		const { role } = req.body;
-		const workspaceId = req.query.workspaceId as string;
+		const workspaceId = req.params.workspaceId as string;
+		const userId = req.params.userId as string;
 		const departmentId = req.query.departmentId as string;
-		const userId = req.query.userId as string;
 
-		if (
-			!(await prisma.workspaceUser.findFirst({
-				where: { userId: userId, workspaceId: workspaceId },
-			}))
-		) {
-			return res
-				.status(404)
-				.json({
-					error: "This user isn't part of this workspace or it doesn't exist",
-				});
+		const user = await prisma.workspaceUser.findUnique({
+			where: {
+				userId_workspaceId: {
+					userId: userId,
+					workspaceId: workspaceId,
+				},
+			},
+		});
+
+		if (!user) {
+			throw new AppError(
+				"This user isn't part of this workspace or it doesn't exist",
+				404,
+			);
 		}
 
 		const data: {
@@ -125,9 +122,7 @@ export class UserController {
 			) {
 				data.departmentId = departmentId;
 			} else {
-				return res
-					.status(404)
-					.json({ error: "This department doesn't exist" });
+				throw new AppError("This department doesn't exist", 404);
 			}
 		}
 
@@ -145,29 +140,23 @@ export class UserController {
 	}
 
 	async deleteWorkspaceUser(req: Request, res: Response) {
-		const workspaceId = req.query.workspaceId as string;
-		const userId = req.query.userId as string;
+		const workspaceId = req.params.workspaceId as string;
+		const userId = req.params.userId as string;
 
-		if (
-			!(await prisma.workspaceUser.findFirst({
-				where: { workspaceId: workspaceId },
-			}))
-		) {
-			return res
-				.status(404)
-				.json({ error: "This workspace doesn't exist" });
-		}
+		const user = await prisma.workspaceUser.findUnique({
+			where: {
+				userId_workspaceId: {
+					userId: userId,
+					workspaceId: workspaceId,
+				},
+			},
+		});
 
-		if (
-			!(await prisma.workspaceUser.findFirst({
-				where: { userId: userId },
-			}))
-		) {
-			return res
-				.status(404)
-				.json({
-					error: "This user isn't part of this workspace or it doesn't exist",
-				});
+		if (!user) {
+			throw new AppError(
+				"This user isn't part of this workspace or it doesn't exist",
+				404,
+			);
 		}
 
 		await prisma.workspaceUser.delete({

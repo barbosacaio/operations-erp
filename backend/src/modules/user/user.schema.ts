@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const listWorkspaceUserSchema = z.object({
-	query: z.object({
+	params: z.object({
 		workspaceId: z.string().min(1),
 	}),
 });
@@ -15,25 +15,29 @@ export const addWorkspaceUserSchema = z.object({
 			}),
 		role: z.enum(['OWNER', 'ADMIN', 'MEMBER']).default('MEMBER').optional(),
 	}),
-	query: z.object({
+	params: z.object({
 		workspaceId: z.string().min(1),
+	}),
+	query: z.object({
 		departmentId: z.string().min(1).optional(),
 	}),
 });
 
-export const editWorkspaceUserSchema = z.object({
+export const updateWorkspaceUserSchema = z.object({
 	body: z.object({
 		role: z.enum(['OWNER', 'ADMIN', 'MEMBER']).default('MEMBER').optional(),
 	}),
 	query: z.object({
+		departmentId: z.string().min(1).optional(),
+	}),
+	params: z.object({
 		workspaceId: z.string().min(1),
 		userId: z.string().min(1),
-		departmentId: z.string().min(1).optional(),
 	}),
 });
 
 export const deleteWorkspaceUserSchema = z.object({
-	query: z.object({
+	params: z.object({
 		workspaceId: z.string().min(1),
 		userId: z.string().min(1),
 	}),

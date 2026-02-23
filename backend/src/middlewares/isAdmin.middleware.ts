@@ -6,7 +6,7 @@ export async function isAdmin(req: Request, res: Response, next: NextFunction) {
 	const workspace = await prisma.workspaceUser.findFirst({
 		where: {
 			userId: req.user?.id,
-			workspaceId: req.query.workspaceId as string,
+			workspaceId: req.params.workspaceId as string,
 		},
 		select: {
 			id: true,
@@ -15,7 +15,10 @@ export async function isAdmin(req: Request, res: Response, next: NextFunction) {
 	});
 
 	if (!workspace?.id) {
-		throw new AppError("This workspace doesn't exist", 404);
+		throw new AppError(
+			"This workspace doesn't exist or you are not a part of it",
+			404,
+		);
 	}
 
 	if (workspace?.role !== 'ADMIN' && workspace?.role !== 'OWNER') {

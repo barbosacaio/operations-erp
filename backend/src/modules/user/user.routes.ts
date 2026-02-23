@@ -10,11 +10,11 @@ import { validate } from '../../middlewares/validation.middleware';
 import {
 	listWorkspaceUserSchema,
 	addWorkspaceUserSchema,
-	editWorkspaceUserSchema,
+	updateWorkspaceUserSchema,
 	deleteWorkspaceUserSchema,
 } from './user.schema';
 
-const userRoutes = Router();
+const userRoutes = Router({ mergeParams: true });
 const userController = new UserController();
 
 userRoutes.get(
@@ -34,15 +34,15 @@ userRoutes.post(
 	userController.addWorkspaceUser,
 );
 userRoutes.put(
-	'/edit',
-	validate(editWorkspaceUserSchema),
+	'/:userId/update',
+	validate(updateWorkspaceUserSchema),
 	ensureAuthenticated,
 	ensureUserExists,
 	isAdmin,
-	userController.editWorkspaceUser,
+	userController.updateWorkspaceUser,
 );
 userRoutes.delete(
-	'/delete',
+	'/:userId/delete',
 	validate(deleteWorkspaceUserSchema),
 	ensureAuthenticated,
 	ensureUserExists,
@@ -50,4 +50,4 @@ userRoutes.delete(
 	userController.deleteWorkspaceUser,
 );
 
-export { userRoutes };
+export default userRoutes;

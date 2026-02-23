@@ -17,16 +17,16 @@ describe('WorkspaceUser routes', () => {
 	describe('GET /user', () => {
 		it('List users of a specific workspace - should return with status 200', async () => {
 			const res = await request(app)
-				.get('/user?workspaceId=1')
+				.get('/workspace/1/user')
 				.set('Authorization', `Bearer ${token}`);
 			expect(res.statusCode).toBe(200);
 		});
 	});
 
-	describe('POST /user/add', () => {
+	describe('POST /workspace/:workspaceId/user/add', () => {
 		it('Create workspace user - should return with status 200', async () => {
 			const res = await request(app)
-				.post('/user/add?workspaceId=1')
+				.post('/workspace/1/user/add')
 				.set('Authorization', `Bearer ${token}`)
 				.send({
 					email: 'admin3@example.com',
@@ -36,20 +36,20 @@ describe('WorkspaceUser routes', () => {
 		});
 	});
 
-	describe('PUT /user/edit', () => {
+	describe('PUT /workspace/:workspaceId/user/:userId/update', () => {
 		it('Update workspace user - should return with status 200', async () => {
 			const res = await request(app)
-				.put('/user/edit?workspaceId=1&userId=3')
+				.put('/workspace/1/user/3/update')
 				.set('Authorization', `Bearer ${token}`)
 				.send({ role: 'MEMBER' });
 			expect(res.statusCode).toBe(200);
 		});
 	});
 
-	describe('DELETE /user/delete', () => {
+	describe('DELETE /workspace/:workspaceId/user/:userId/delete', () => {
 		it('Delete workspace user - should return with status 204', async () => {
 			const res = await request(app)
-				.delete('/user/delete?workspaceId=1&userId=3')
+				.delete('/workspace/1/user/3/delete')
 				.set('Authorization', `Bearer ${token}`);
 			expect(res.statusCode).toBe(204);
 		});

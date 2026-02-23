@@ -15,6 +15,11 @@ import {
 const workspaceRoutes = Router();
 const workspaceController = new WorkspaceController();
 
+import userRoutes from '../user/user.routes';
+workspaceRoutes.use('/:workspaceId/user', userRoutes);
+import departmentRoutes from '../department/department.routes';
+workspaceRoutes.use('/:workspaceId/department', departmentRoutes);
+
 workspaceRoutes.get(
 	'/',
 	ensureAuthenticated,
@@ -29,7 +34,7 @@ workspaceRoutes.post(
 	workspaceController.createWorkspace,
 );
 workspaceRoutes.put(
-	'/edit',
+	'/:workspaceId/update',
 	validate(updateWorkspaceSchema),
 	isOwner,
 	ensureAuthenticated,
@@ -37,7 +42,7 @@ workspaceRoutes.put(
 	workspaceController.updateWorkspace,
 );
 workspaceRoutes.delete(
-	'/delete',
+	'/:workspaceId/delete',
 	validate(deleteWorkspaceSchema),
 	isOwner,
 	ensureAuthenticated,
