@@ -16,6 +16,9 @@ import {
 const projectRoutes = Router({ mergeParams: true });
 const projectController = new ProjectController();
 
+import taskRoutes from '../task/task.routes';
+projectRoutes.use('/:projectId/task', taskRoutes);
+
 projectRoutes.get(
 	'/',
 	ensureAuthenticated,

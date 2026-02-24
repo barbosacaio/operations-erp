@@ -130,7 +130,49 @@ async function main() {
 		],
 	});
 
-	console.log({ users, workspaces, departments, workspaceUsers, projects });
+	const tasks = await prisma.task.createMany({
+		data: [
+			{
+				id: '1',
+				name: 'Task 1',
+				description: 'Finish task 1',
+				assigneeId: '1',
+				projectId: '1',
+				dueDate: new Date(2026, 12, 12),
+				priority: 'HIGH',
+				status: 'ONGOING',
+			},
+			{
+				id: '2',
+				name: 'Task 2',
+				description: 'Finish task 2',
+				assigneeId: '2',
+				projectId: '2',
+				dueDate: new Date(2026, 12, 12),
+				priority: 'CRITICAL',
+				status: 'PAUSED',
+			},
+			{
+				id: '3',
+				name: 'Task 3',
+				description: 'Finish task 3',
+				assigneeId: '3',
+				projectId: '3',
+				dueDate: new Date(2026, 12, 12),
+				priority: 'LOW',
+				status: 'CANCELLED',
+			},
+		],
+	});
+
+	console.log({
+		users,
+		workspaces,
+		departments,
+		workspaceUsers,
+		projects,
+		tasks,
+	});
 }
 
 main()

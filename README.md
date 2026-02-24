@@ -93,6 +93,11 @@
   - `/workspace/:workspaceId/department/:departmentId/project/add` - Adds a new project into a department (ADMIN)
   - `/workspace/:workspaceId/department/:departmentId/project/:projectId/update` - Edit an existing project from your department (ADMIN)
   - `/workspace/:workspaceId/department/:departmentId/project/:projectId/delete` - Delete a project from your department (ADMIN)
+- **Task**
+  - `/workspace/:workspaceId/department/:departmentId/project/:projectId/task` - Lists tasks from a project
+  - `/workspace/:workspaceId/department/:departmentId/project/:projectId/task/add` - Adds a new task into a project
+  - `/workspace/:workspaceId/department/:departmentId/project/:projectId/task/:taskId/update` - Edit an existing task from your project
+  - `/workspace/:workspaceId/department/:departmentId/project/:projectId/task/:taskId/delete` - Delete a task from your project
 
 ## ❔ How To Run
 
