@@ -98,6 +98,11 @@
   - `/workspace/:workspaceId/department/:departmentId/project/:projectId/task/add` - Adds a new task into a project
   - `/workspace/:workspaceId/department/:departmentId/project/:projectId/task/:taskId/update` - Edit an existing task from your project
   - `/workspace/:workspaceId/department/:departmentId/project/:projectId/task/:taskId/delete` - Delete a task from your project
+- **Invoice**
+  - `/workspace/:workspaceId/invoice` - Lists invoices from a workspace (ADMIN)
+  - `/workspace/:workspaceId/invoice/add` - Adds a new invoice int o a workspace (ADMIN)
+  - `/workspace/:workspaceId/invoice/:invoiceId/update` - Edit an existing invoice from your workspace (ADMIN)
+  - `/workspace/:workspaceId/invoice/:invoiceId/delete` - Delete an invoice from your workspace (ADMIN)
 
 ## ❔ How To Run
 

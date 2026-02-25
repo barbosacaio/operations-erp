@@ -19,6 +19,8 @@ import userRoutes from '../user/user.routes';
 workspaceRoutes.use('/:workspaceId/user', userRoutes);
 import departmentRoutes from '../department/department.routes';
 workspaceRoutes.use('/:workspaceId/department', departmentRoutes);
+import invoiceRoutes from '../invoice/invoice.routes';
+workspaceRoutes.use('/:workspaceId/invoice', invoiceRoutes);
 
 workspaceRoutes.get(
 	'/',

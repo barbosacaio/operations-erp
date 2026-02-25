@@ -165,6 +165,49 @@ async function main() {
 		],
 	});
 
+	const invoices = await prisma.invoice.createMany({
+		data: [
+			{
+				id: '1',
+				type: 'INCOME',
+				value: 9000,
+				target: 'CUSTOMER',
+				status: 'PAID',
+				dueDate: new Date(2026, 10, 1),
+				paidDate: new Date(2026, 2, 2),
+				workspaceId: '1',
+			},
+			{
+				id: '2',
+				type: 'EXPENSE',
+				value: 12000,
+				target: 'EMPLOYEE',
+				status: 'UNPAID',
+				dueDate: new Date(2026, 9, 1),
+				workspaceId: '1',
+			},
+			{
+				id: '3',
+				type: 'EXPENSE',
+				value: 6690,
+				target: 'SUPPLIER',
+				status: 'EXPIRED',
+				dueDate: new Date(2026, 1, 10),
+				workspaceId: '2',
+			},
+			{
+				id: '4',
+				type: 'INCOME',
+				value: 10920,
+				target: 'PARTNER',
+				status: 'PAID',
+				dueDate: new Date(2026, 2, 20),
+				paidDate: new Date(2026, 2, 10),
+				workspaceId: '2',
+			},
+		],
+	});
+
 	console.log({
 		users,
 		workspaces,
@@ -172,6 +215,7 @@ async function main() {
 		workspaceUsers,
 		projects,
 		tasks,
+		invoices,
 	});
 }
 

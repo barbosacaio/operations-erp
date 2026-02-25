@@ -24,6 +24,7 @@ model Workspace {
 
     users WorkspaceUser[]
     departments Department[]
+    invoices Invoice[]
 }
 
 model WorkspaceUser {
@@ -108,5 +109,42 @@ enum TaskStatus {
     ONGOING
     PAUSED
     FINISHED
+    CANCELLED
+}
+
+model Invoice {
+    id String @id @default(uuid())
+    type InvoiceType
+    value Int
+    target InvoiceTarget?
+    status InvoiceStatus @default(UNPAID)
+    dueDate DateTime?
+    paidDate DateTime?
+    workspaceId String
+
+    workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+enum InvoiceType {
+    EXPENSE
+    INCOME
+}
+
+enum InvoiceTarget {
+    AFFILIATE
+    CONTRACTOR
+    CUSTOMER
+    EMPLOYEE
+    PARTNER
+    SUBSIDIARY
+    SUPPLIER
+    TAX
+    VENDOR
+}
+
+enum InvoiceStatus {
+    UNPAID
+    PAID
+    EXPIRED
     CANCELLED
 }
