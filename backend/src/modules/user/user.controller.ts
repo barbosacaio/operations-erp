@@ -64,6 +64,18 @@ export class UserController {
 		}
 
 		if (role) {
+			const currentUserRole = await prisma.workspaceUser.findFirst({
+				where: {
+					userId: req.user?.id,
+					workspaceId: workspaceId,
+				},
+				select: { role: true, },
+			});
+
+			if (role === "OWNER" && currentUserRole?.role !== "OWNER") {
+				throw new AppError("You can't set an user as an 'OWNER' unless you are an owner", 403);
+			}
+
 			data.role = role;
 		}
 
@@ -111,6 +123,18 @@ export class UserController {
 		} = {};
 
 		if (role) {
+			const currentUserRole = await prisma.workspaceUser.findFirst({
+				where: {
+					userId: req.user?.id,
+					workspaceId: workspaceId,
+				},
+				select: { role: true, },
+			});
+
+			if (role === "OWNER" && currentUserRole?.role !== "OWNER") {
+				throw new AppError("You can't set an user as an 'OWNER' unless you are an owner", 403);
+			}
+
 			data.role = role;
 		}
 
