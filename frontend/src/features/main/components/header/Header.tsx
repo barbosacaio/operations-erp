@@ -3,11 +3,11 @@ import { useState } from 'react';
 
 import styles from './Header.module.css';
 
-import userLogo from '@/assets/userLogo.svg';
-import menuButton from '@/assets/menuButton.svg';
-import feedbackLogo from '@/assets/feedbackLogo.svg';
-import settingsLogo from '@/assets/settingsLogo.svg';
-import searchLogo from '@/assets/searchLogo.svg';
+import userLogo from '@/assets/logos/userLogo.svg';
+import menuButton from '@/assets/logos/menuButton.svg';
+import feedbackLogo from '@/assets/logos/feedbackLogo.svg';
+import settingsLogo from '@/assets/logos/settingsLogo.svg';
+import searchLogo from '@/assets/logos/searchLogo.svg';
 
 export const Header = () => {
 	const [isOpen, setIsOpen] = useState(false);

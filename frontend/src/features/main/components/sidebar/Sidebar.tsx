@@ -2,12 +2,12 @@ import { NavLink } from 'react-router-dom';
 
 import styles from './Sidebar.module.css';
 
-import users from '@/assets/users.svg';
-import departments from '@/assets/departments.svg';
-import projects from '@/assets/projects.svg';
-import tasks from '@/assets/tasks.svg';
-import invoices from '@/assets/invoices.svg';
-import reports from '@/assets/reports.svg';
+import users from '@/assets/logos/users.svg';
+import departments from '@/assets/logos/departments.svg';
+import projects from '@/assets/logos/projects.svg';
+import tasks from '@/assets/logos/tasks.svg';
+import invoices from '@/assets/logos/invoices.svg';
+import reports from '@/assets/logos/reports.svg';
 
 export const Sidebar = () => {
 	return (

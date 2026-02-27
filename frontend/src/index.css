@@ -24,6 +24,6 @@ body,
 
 .content {
   flex: 1;
-  padding: 3vh 3vw;
+  padding: 0;
   background-color: #eceeeb;
 }

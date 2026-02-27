@@ -105,12 +105,14 @@
   - `/workspace/:workspaceId/invoice/:invoiceId/delete` - Delete an invoice from your workspace (ADMIN)
 
 ## 🎨 Collor Palette
+- Black: #000000
 - Charcoal Blue: #1E293B
 - Dark Slate Blue: #293A55
 - Deep Teal: #52796F
 - Muted Teal: #84A98C
 - Ash Gray: #CAD2C5
 - Pale Gray: #ECEEEB
+- White: #FFF
 
 ## ❔ How To Run
 
