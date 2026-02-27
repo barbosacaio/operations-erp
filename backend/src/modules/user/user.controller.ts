@@ -69,11 +69,14 @@ export class UserController {
 					userId: req.user?.id,
 					workspaceId: workspaceId,
 				},
-				select: { role: true, },
+				select: { role: true },
 			});
 
-			if (role === "OWNER" && currentUserRole?.role !== "OWNER") {
-				throw new AppError("You can't set an user as an 'OWNER' unless you are an owner", 403);
+			if (role === 'OWNER' && currentUserRole?.role !== 'OWNER') {
+				throw new AppError(
+					"You can't set an user as an 'OWNER' unless you are an owner",
+					403,
+				);
 			}
 
 			data.role = role;
@@ -128,11 +131,14 @@ export class UserController {
 					userId: req.user?.id,
 					workspaceId: workspaceId,
 				},
-				select: { role: true, },
+				select: { role: true },
 			});
 
-			if (role === "OWNER" && currentUserRole?.role !== "OWNER") {
-				throw new AppError("You can't set an user as an 'OWNER' unless you are an owner", 403);
+			if (role === 'OWNER' && currentUserRole?.role !== 'OWNER') {
+				throw new AppError(
+					"You can't set an user as an 'OWNER' unless you are an owner",
+					403,
+				);
 			}
 
 			data.role = role;

@@ -104,6 +104,14 @@
   - `/workspace/:workspaceId/invoice/:invoiceId/update` - Edit an existing invoice from your workspace (ADMIN)
   - `/workspace/:workspaceId/invoice/:invoiceId/delete` - Delete an invoice from your workspace (ADMIN)
 
+## 🎨 Collor Palette
+- Charcoal Blue: #1E293B
+- Dark Slate Blue: #293A55
+- Deep Teal: #52796F
+- Muted Teal: #84A98C
+- Ash Gray: #CAD2C5
+- Pale Gray: #ECEEEB
+
 ## ❔ How To Run
 
 - [Clone the repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)

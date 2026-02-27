@@ -28,12 +28,11 @@ export default defineConfig([
       '**/docker-compose.yml',
       '**/docker-compose.*.yml',
       '**/.dockerignore',
+      '*.css',
     ],
   },
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    plugins: { js, react },
-    extends: ['js/recommended'],
     languageOptions: { globals: globals.browser },
     settings: {
       react: {
@@ -41,8 +40,14 @@ export default defineConfig([
       },
     },
   },
-  tseslint.configs.recommended,
-  react.configs.flat.recommended,
+  ...tseslint.configs.recommended.map((config) => ({
+    ...config,
+    files: ['**/*.{ts,tsx}'],
+  })),
+  {
+    ...react.configs.flat['jsx-runtime'],
+    files: ['**/*.{jsx,tsx}'],
+  },
   {
     files: ['**/*.css'],
     plugins: { css },

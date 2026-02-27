@@ -9,9 +9,24 @@ export const listInvoiceSchema = z.object({
 export const addInvoiceSchema = z.object({
 	body: z.object({
 		type: z.enum(['INCOME', 'EXPENSE']),
-		target: z.enum(['AFFILIATE', 'CONTRACTOR', 'CUSTOMER', 'EMPLOYEE', 'PARTNER', 'SUBSIDIARY', 'SUPPLIER', 'TAX', 'VENDOR']).optional(),
+		target: z
+			.enum([
+				'AFFILIATE',
+				'CONTRACTOR',
+				'CUSTOMER',
+				'EMPLOYEE',
+				'PARTNER',
+				'SUBSIDIARY',
+				'SUPPLIER',
+				'TAX',
+				'VENDOR',
+			])
+			.optional(),
 		value: z.int(),
-		status: z.enum(['UNPAID', 'PAID', 'EXPIRED', 'CANCELLED']).default('UNPAID').optional(),
+		status: z
+			.enum(['UNPAID', 'PAID', 'EXPIRED', 'CANCELLED'])
+			.default('UNPAID')
+			.optional(),
 		dueDate: z.coerce.date().optional(),
 		paidDate: z.coerce.date().optional(),
 	}),
@@ -23,9 +38,24 @@ export const addInvoiceSchema = z.object({
 export const updateInvoiceSchema = z.object({
 	body: z.object({
 		type: z.enum(['INCOME', 'EXPENSE']).optional(),
-		target: z.enum(['AFFILIATE', 'CONTRACTOR', 'CUSTOMER', 'EMPLOYEE', 'PARTNER', 'SUBSIDIARY', 'SUPPLIER', 'TAX', 'VENDOR']).optional(),
+		target: z
+			.enum([
+				'AFFILIATE',
+				'CONTRACTOR',
+				'CUSTOMER',
+				'EMPLOYEE',
+				'PARTNER',
+				'SUBSIDIARY',
+				'SUPPLIER',
+				'TAX',
+				'VENDOR',
+			])
+			.optional(),
 		value: z.int().optional(),
-		status: z.enum(['UNPAID', 'PAID', 'EXPIRED', 'CANCELLED']).default('UNPAID').optional(),
+		status: z
+			.enum(['UNPAID', 'PAID', 'EXPIRED', 'CANCELLED'])
+			.default('UNPAID')
+			.optional(),
 		dueDate: z.coerce.date().optional(),
 		paidDate: z.coerce.date().optional(),
 	}),

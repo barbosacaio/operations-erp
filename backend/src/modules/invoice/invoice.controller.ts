@@ -27,25 +27,33 @@ export class InvoiceController {
 		const workspaceId = req.params.workspaceId as string;
 
 		const data: {
-			type: InvoiceType,
-			target?: InvoiceTarget,
-			value: number,
-			status?: InvoiceStatus,
-			dueDate?: Date,
-			paidDate?: Date,
-			workspaceId: string,
+			type: InvoiceType;
+			target?: InvoiceTarget;
+			value: number;
+			status?: InvoiceStatus;
+			dueDate?: Date;
+			paidDate?: Date;
+			workspaceId: string;
 		} = {
 			type: type,
 			value: value,
 			workspaceId: workspaceId,
+		};
+
+		if (target) {
+			data.target = target;
+		}
+		if (status) {
+			data.status = status;
+		}
+		if (dueDate) {
+			data.dueDate = new Date(dueDate);
+		}
+		if (paidDate) {
+			data.paidDate = new Date(paidDate);
 		}
 
-		if (target) { data.target = target }
-		if (status) { data.status = status }
-		if (dueDate) { data.dueDate = new Date(dueDate) }
-		if (paidDate) { data.paidDate = new Date(paidDate) }
-
-		const invoice = await prisma.invoice.create({ data, });
+		const invoice = await prisma.invoice.create({ data });
 
 		return res.status(201).json(invoice);
 	}
@@ -67,23 +75,35 @@ export class InvoiceController {
 		}
 
 		const data: {
-			type?: InvoiceType,
-			target?: InvoiceTarget,
-			value?: number,
-			status?: InvoiceStatus,
-			dueDate?: Date,
-			paidDate?: Date,
-			workspaceId: string,
+			type?: InvoiceType;
+			target?: InvoiceTarget;
+			value?: number;
+			status?: InvoiceStatus;
+			dueDate?: Date;
+			paidDate?: Date;
+			workspaceId: string;
 		} = {
 			workspaceId: workspaceId,
-		}
+		};
 
-		if (type) { data.type = type }
-		if (target) { data.target = target }
-		if (value) { data.value = value }
-		if (status) { data.status = status }
-		if (dueDate) { data.dueDate = new Date(dueDate) }
-		if (paidDate) { data.paidDate = new Date(paidDate) }
+		if (type) {
+			data.type = type;
+		}
+		if (target) {
+			data.target = target;
+		}
+		if (value) {
+			data.value = value;
+		}
+		if (status) {
+			data.status = status;
+		}
+		if (dueDate) {
+			data.dueDate = new Date(dueDate);
+		}
+		if (paidDate) {
+			data.paidDate = new Date(paidDate);
+		}
 
 		const invoice = await prisma.invoice.update({
 			where: { id: invoiceId },
