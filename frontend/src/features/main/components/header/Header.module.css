@@ -1,7 +1,7 @@
 .header {
   position: relative;
   height: clamp(60px, 8vh, 120px);
-  background: #1e293b;
+  background: #52796f;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -72,7 +72,7 @@
     position: absolute;
     top: 100%;
     right: 0;
-    background: #1e293b;
+    background: #52796f;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
     border: 1px solid #2e3b4e;
     min-width: 130px;
@@ -104,7 +104,7 @@
   .navItem:hover,
   .userWrapper:hover {
     text-decoration: underline;
-    color: #84a98c;
+    color: #cad2c5;
   }
 
   .label {

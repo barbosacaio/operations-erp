@@ -110,6 +110,7 @@
 - Dark Slate Blue: #293A55
 - Deep Teal: #52796F
 - Muted Teal: #84A98C
+- Sage Teal: #8FA8A1
 - Ash Gray: #CAD2C5
 - Pale Gray: #ECEEEB
 - White: #FFF
