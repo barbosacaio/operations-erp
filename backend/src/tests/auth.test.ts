@@ -9,6 +9,7 @@ describe('Auth routes', () => {
 				surname: 'Four',
 				email: 'admin4@example.com',
 				password: 'admin012',
+				confirmPassword: 'admin012',
 			});
 			expect(res.statusCode).toBe(201);
 		});
@@ -19,8 +20,9 @@ describe('Auth routes', () => {
 				surname: 'One',
 				email: 'admin1@example.com',
 				password: 'admin123',
+				confirmPassword: 'admin123',
 			});
-			expect(res.statusCode).toBe(500);
+			expect(res.statusCode).toBe(409);
 		});
 
 		it('Short name/surname/password - should return with status 400', async () => {
@@ -29,6 +31,7 @@ describe('Auth routes', () => {
 				surname: '1',
 				email: 'example@example.com',
 				password: 'ex1',
+				confirmPassword: 'ex1',
 			});
 			expect(res.statusCode).toBe(400);
 		});
@@ -39,6 +42,7 @@ describe('Auth routes', () => {
 				surname: 'One',
 				email: 'admin1example.com',
 				password: 'admin123',
+				confirmPassword: 'admin123',
 			});
 			expect(res.statusCode).toBe(400);
 		});

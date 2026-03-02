@@ -9,30 +9,32 @@ export const RegisterForm = () => {
 			<form className={styles.registerForm}>
 				<input
 					type="text"
-					id="name"
 					className={styles.registerFormField}
 					placeholder="Name"
 					required
 				/>
 				<input
 					type="text"
-					id="surname"
 					className={styles.registerFormField}
 					placeholder="Surname"
 					required
 				/>
 				<input
 					type="email"
-					id="email"
 					className={styles.registerFormField}
 					placeholder="Email"
 					required
 				/>
 				<input
 					type="password"
-					id="password"
 					className={styles.registerFormField}
 					placeholder="Password"
+					required
+				/>
+				<input
+					type="confirmPassword"
+					className={styles.registerFormField}
+					placeholder="Confirm password"
 					required
 				/>
 				<input

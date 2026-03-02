@@ -1,4 +1,5 @@
 import { prisma } from '../../database/prisma';
+import { AppError } from '../../errors/AppError';
 import { hashPassword } from '../password.service';
 import { generateToken } from './jwt.service';
 
@@ -7,6 +8,7 @@ interface RegisterInput {
 	surname: string;
 	email: string;
 	password: string;
+	confirmPassword: string;
 }
 
 export async function register({
@@ -14,13 +16,24 @@ export async function register({
 	surname,
 	email,
 	password,
+	confirmPassword,
 }: RegisterInput) {
+	name = name.trim();
+	surname = surname.trim();
+	email = email.trim().toLowerCase();
+	password = password.trim();
+	confirmPassword = confirmPassword.trim();
+
 	const userAlreadyExists = await prisma.user.findUnique({
 		where: { email },
 	});
 
 	if (userAlreadyExists) {
-		throw new Error('User already exists');
+		throw new AppError('User already exists', 409);
+	}
+
+	if (password !== confirmPassword) {
+		throw new AppError('The passwords do not match', 400);
 	}
 
 	const passwordHash = await hashPassword(password);

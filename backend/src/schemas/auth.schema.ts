@@ -10,6 +10,7 @@ export const registerSchema = z.object({
 				message: 'Invalid email format',
 			}),
 		password: z.string().min(6),
+		confirmPassword: z.string().min(6),
 	}),
 });
 

@@ -9,6 +9,9 @@ interface LoginInput {
 }
 
 export async function login({ email, password }: LoginInput) {
+	email = email.trim().toLowerCase();
+	password = password.trim();
+
 	const user = await prisma.user.findUnique({
 		where: { email },
 	});
