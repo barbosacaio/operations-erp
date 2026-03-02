@@ -8,7 +8,7 @@ import './index.css';
 
 ReactDom.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
-		<Toaster position='top-right' />
+		<Toaster position="top-right" />
 		<RouterProvider router={router} />
 	</React.StrictMode>,
 );
