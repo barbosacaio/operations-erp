@@ -2,17 +2,19 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { authService } from '../services/auth';
+import { useAuth } from '@/context/auth.context';
 import type { RegisterRequest } from '../types/register';
 import { ApiError } from '@/services/api';
 
 export function useRegister() {
 	const navigate = useNavigate();
+	const { login } = useAuth();
 
 	const { mutate, isPending } = useMutation({
 		mutationFn: (data: RegisterRequest) => authService.register(data),
 
 		onSuccess: ({ token, user }) => {
-			localStorage.setItem('token', token);
+			login(token);
 			toast.success(`Welcome, ${user.name}!`);
 			navigate('/');
 		},
