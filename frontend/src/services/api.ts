@@ -1,7 +1,4 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-
-const navigate = useNavigate();
 
 const instance = axios.create({
 	baseURL: import.meta.env.VITE_API_URL,
@@ -41,7 +38,7 @@ instance.interceptors.response.use(
 
 		if (status === 401) {
 			localStorage.removeItem('token');
-			navigate('/auth/login');
+			window.location.href = '/auth/login';
 		}
 
 		throw new ApiError(message, status);

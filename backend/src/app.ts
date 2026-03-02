@@ -9,10 +9,22 @@ import { authRoutes } from './routes/auth.routes';
 import { workspaceRoutes } from './modules/workspace/workspace.routes';
 
 const app = express();
+const allowedOrigins = process.env.CORS_ORIGIN?.split(',') ?? [];
 
 // Global middlewares
 app.use(helmet());
-app.use(cors());
+app.use(
+	cors({
+		origin: (origin, callback) => {
+			if (!origin || allowedOrigins.includes(origin)) {
+				callback(null, true);
+			} else {
+				callback(new Error(`Origin blocked by CORS: ${origin}`));
+			}
+		},
+		credentials: true,
+	}),
+);
 app.use(httpLogger);
 app.use(express.json());
 

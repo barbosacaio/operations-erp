@@ -29,11 +29,14 @@ export async function register({
 	});
 
 	if (userAlreadyExists) {
-		throw new AppError('User already exists', 409);
+		throw new AppError(
+			'This user already exists. Please use a different email address',
+			409,
+		);
 	}
 
 	if (password !== confirmPassword) {
-		throw new AppError('The passwords do not match', 400);
+		throw new AppError('The passwords do not match. Please try again', 400);
 	}
 
 	const passwordHash = await hashPassword(password);
