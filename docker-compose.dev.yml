@@ -17,6 +17,8 @@ services:
     environment:
       - NODE_ENV=development
       - DATABASE_URL=postgresql://${DATABASE_USER:-admin}:${DATABASE_PASSWORD:-adminpassword}@${DATABASE_HOST:-database}:${DATABASE_PORT:-5432}/${DATABASE_NAME:-operations_erp_dev}
+      - CHOKIDAR_USEPOLLING=1
+      - CHOKIDAR_INTERVAL=1000
     volumes:
       - ./backend:/app
       - /app/node_modules
