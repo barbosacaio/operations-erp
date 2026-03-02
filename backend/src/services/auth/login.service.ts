@@ -17,13 +17,19 @@ export async function login({ email, password }: LoginInput) {
 	});
 
 	if (!user) {
-		throw new AppError('Invalid credentials', 401);
+		throw new AppError(
+			'Invalid credentials. Please double-check your details',
+			401,
+		);
 	}
 
 	const passwordMatch = await comparePassword(password, user.passwordHash);
 
 	if (!passwordMatch) {
-		throw new AppError('Invalid credentials', 401);
+		throw new AppError(
+			'Invalid credentials. Please double-check your details',
+			401,
+		);
 	}
 
 	const token = generateToken(user.id);

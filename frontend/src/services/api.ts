@@ -37,8 +37,12 @@ instance.interceptors.response.use(
 		const status = error.response.status;
 
 		if (status === 401) {
-			localStorage.removeItem('token');
-			window.location.href = '/auth/login';
+			const token = localStorage.getItem('token');
+
+			if (token) {
+				localStorage.removeItem('token');
+				window.location.href = '/auth/login';
+			}
 		}
 
 		throw new ApiError(message, status);
