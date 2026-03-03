@@ -4,6 +4,7 @@ import { useLogOut } from '../../hooks/useLogOut';
 
 import styles from './Sidebar.module.css';
 import {
+	Building2,
 	UserRoundSearch,
 	Boxes,
 	FolderOpen,
@@ -19,6 +20,14 @@ export const Sidebar = () => {
 	return (
 		<aside className={styles.aside}>
 			<nav>
+				<NavLink to="/" className={styles.navItem}>
+					<Building2
+						color="#ECEEEB"
+						size={30}
+						className={styles.icon}
+					/>
+					<span className={styles.label}>Workspaces</span>
+				</NavLink>
 				<NavLink to="/user" className={styles.navItem}>
 					<UserRoundSearch
 						color="#ECEEEB"
