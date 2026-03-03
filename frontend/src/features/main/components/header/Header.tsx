@@ -23,7 +23,7 @@ export const Header = () => {
 				height={60}
 			/>
 			<a href="/" className={styles.workspaceName}>
-				Workspace Name
+				OperationsERP
 			</a>
 			<button
 				className={styles.menuButton}

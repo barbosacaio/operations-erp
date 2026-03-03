@@ -1,0 +1,139 @@
+.pageTitle {
+  font-size: clamp(20px, 1vw, 60px);
+}
+
+.searchForm {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  margin: 1vh 0;
+}
+
+.searchField {
+  background: #fff;
+  padding: clamp(10px, 1vw, 30px);
+  border: solid #8fa8a1 1px;
+  border-top-left-radius: clamp(2px, 10px, 10px);
+  border-bottom-left-radius: clamp(2px, 10px, 10px);
+  width: 50%;
+}
+
+.searchButton {
+  background: #eceeeb;
+  width: 4%;
+  border: solid #8fa8a1 1px;
+  border-left: none;
+  border-top-right-radius: clamp(2px, 10px, 10px);
+  border-bottom-right-radius: clamp(2px, 10px, 10px);
+  cursor: pointer;
+}
+
+.searchField:focus,
+.searchButton:focus {
+  outline: none;
+}
+
+.searchButton:hover {
+  background: #cad2c5;
+}
+
+.searchIcon {
+  color: #000000;
+  width: clamp(8px, 0.8vw, 24px);
+  height: auto;
+}
+
+.workspaces {
+  background: #8fa8a1;
+  width: 100%;
+  margin-top: 2vh;
+  border: solid #8fa8a1 0.5px;
+  border-radius: clamp(2px, 10px, 10px);
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+}
+
+.workspacesHead > tr > th {
+  background: #eceeeb;
+  border-bottom: solid #8fa8a1 1px;
+  padding: 1vh 1vw;
+  font-size: clamp(18px, 1vw, 54px);
+  font-weight: clamp(300, 500, 900);
+}
+
+.workspacesBody > tr > td {
+  background: #fff;
+  border-bottom: solid #8fa8a1 0.5px;
+  padding: 0.6vh 0.6vw;
+  font-size: clamp(15px, 0.6vw, 45px);
+  font-weight: clamp(200, 400, 600);
+  text-align: center;
+}
+
+.workspacesBody > tr:nth-last-child(1) > td {
+  border-bottom: none;
+}
+
+.joinButton,
+.quitButton {
+  padding: 0.8vh 0.8vw;
+  border-radius: clamp(2px, 10px, 10px);
+  outline: none;
+  color: #eceeeb;
+  width: 35%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.joinButton {
+  background: #84a98c;
+  border: solid #52796f 1px;
+}
+
+.joinButton:hover {
+  background: #52796f;
+}
+
+.joinButtonIcon,
+.quitButtonIcon {
+  display: none;
+}
+
+.quitButton {
+  background: #c96f6f;
+  border: solid #9c4c4c 1px;
+}
+
+.quitButton:hover {
+  background: #9c4c4c;
+}
+
+@media (max-width: 768px) {
+  .searchField {
+    width: 100%;
+    border-radius: clamp(2px, 10px, 10px);
+  }
+
+  .searchButton {
+    display: none;
+    cursor: none;
+  }
+
+  .joinButton,
+  .quitButton {
+    width: 100%;
+  }
+
+  .joinButtonIcon,
+  .quitButtonIcon {
+    display: block;
+  }
+
+  .joinButtonLabel,
+  .quitButtonLabel {
+    display: none;
+  }
+}

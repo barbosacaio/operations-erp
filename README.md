@@ -109,8 +109,10 @@
 - Charcoal Blue: #1E293B
 - Dark Slate Blue: #293A55
 - Deep Teal: #52796F
+- Muted Red: #9C4C4C
 - Muted Teal: #84A98C
 - Sage Teal: #8FA8A1
+- Dusty Rose: #C96F6F
 - Ash Gray: #CAD2C5
 - Pale Gray: #ECEEEB
 - White: #FFF
