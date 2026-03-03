@@ -4,6 +4,7 @@ import { InvoiceController } from './invoice.controller';
 import { ensureAuthenticated } from '../../middlewares/ensureAuthenticated.middleware';
 import { isAdmin } from '../../middlewares/isAdmin.middleware';
 import { ensureUserExists } from '../../middlewares/ensureUserExists.middleware';
+import { apiLimiter } from '../../middlewares/rateLimiter';
 
 import { validate } from '../../middlewares/validation.middleware';
 import {
@@ -22,6 +23,7 @@ invoiceRoutes.get(
 	ensureAuthenticated,
 	ensureUserExists,
 	isAdmin,
+	apiLimiter,
 	invoiceController.listInvoice,
 );
 invoiceRoutes.post(
@@ -30,6 +32,7 @@ invoiceRoutes.post(
 	ensureAuthenticated,
 	ensureUserExists,
 	isAdmin,
+	apiLimiter,
 	invoiceController.addInvoice,
 );
 invoiceRoutes.put(
@@ -38,6 +41,7 @@ invoiceRoutes.put(
 	ensureAuthenticated,
 	ensureUserExists,
 	isAdmin,
+	apiLimiter,
 	invoiceController.updateInvoice,
 );
 invoiceRoutes.delete(
@@ -46,6 +50,7 @@ invoiceRoutes.delete(
 	ensureAuthenticated,
 	ensureUserExists,
 	isAdmin,
+	apiLimiter,
 	invoiceController.deleteInvoice,
 );
 

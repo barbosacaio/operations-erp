@@ -5,6 +5,7 @@ import { ensureAuthenticated } from '../../middlewares/ensureAuthenticated.middl
 import { isAdmin } from '../../middlewares/isAdmin.middleware';
 import { ensureUserExists } from '../../middlewares/ensureUserExists.middleware';
 import { isInWorkspace } from '../../middlewares/isInWorkspace.middleware';
+import { apiLimiter } from '../../middlewares/rateLimiter';
 
 import { validate } from '../../middlewares/validation.middleware';
 import {
@@ -26,6 +27,7 @@ departmentRoutes.get(
 	ensureAuthenticated,
 	ensureUserExists,
 	isInWorkspace,
+	apiLimiter,
 	departmentController.listDepartment,
 );
 departmentRoutes.post(
@@ -34,6 +36,7 @@ departmentRoutes.post(
 	ensureAuthenticated,
 	ensureUserExists,
 	isAdmin,
+	apiLimiter,
 	departmentController.addDepartment,
 );
 departmentRoutes.put(
@@ -42,6 +45,7 @@ departmentRoutes.put(
 	ensureAuthenticated,
 	ensureUserExists,
 	isAdmin,
+	apiLimiter,
 	departmentController.updateDepartment,
 );
 departmentRoutes.delete(
@@ -50,6 +54,7 @@ departmentRoutes.delete(
 	ensureAuthenticated,
 	ensureUserExists,
 	isAdmin,
+	apiLimiter,
 	departmentController.deleteDepartment,
 );
 

@@ -4,6 +4,7 @@ import { WorkspaceController } from './workspace.controller';
 import { ensureAuthenticated } from '../../middlewares/ensureAuthenticated.middleware';
 import { isOwner } from '../../middlewares/isOwner.middleware';
 import { ensureUserExists } from '../../middlewares/ensureUserExists.middleware';
+import { apiLimiter } from '../../middlewares/rateLimiter';
 
 import { validate } from '../../middlewares/validation.middleware';
 import {
@@ -26,6 +27,7 @@ workspaceRoutes.get(
 	'/',
 	ensureAuthenticated,
 	ensureUserExists,
+	apiLimiter,
 	workspaceController.listWorkspace,
 );
 workspaceRoutes.post(
@@ -33,6 +35,7 @@ workspaceRoutes.post(
 	validate(createWorkspaceSchema),
 	ensureAuthenticated,
 	ensureUserExists,
+	apiLimiter,
 	workspaceController.createWorkspace,
 );
 workspaceRoutes.put(
@@ -41,6 +44,7 @@ workspaceRoutes.put(
 	isOwner,
 	ensureAuthenticated,
 	ensureUserExists,
+	apiLimiter,
 	workspaceController.updateWorkspace,
 );
 workspaceRoutes.delete(
@@ -49,6 +53,7 @@ workspaceRoutes.delete(
 	isOwner,
 	ensureAuthenticated,
 	ensureUserExists,
+	apiLimiter,
 	workspaceController.deleteWorkspace,
 );
 

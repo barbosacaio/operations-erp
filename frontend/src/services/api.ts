@@ -64,6 +64,10 @@ instance.interceptors.response.use(
 			}
 		}
 
+		if (status === 429) {
+			throw new ApiError('Too many requests. Please try again in a few moments.', 429);
+		}
+
 		throw new ApiError(message, status);
 	},
 );

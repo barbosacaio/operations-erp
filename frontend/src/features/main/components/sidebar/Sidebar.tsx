@@ -66,17 +66,17 @@ export const Sidebar = () => {
 			</nav>
 			<nav className={styles.aside}>
 				<button
-					type='button'
+					type="button"
 					className={styles.navItem}
 					onClick={() => logOutUser()}
 					disabled={isPending}
-					style={{background: 'none', border: 'none', cursor: 'pointer'}}
+					style={{
+						background: 'none',
+						border: 'none',
+						cursor: 'pointer',
+					}}
 				>
-					<LogOut
-						color='#ECEEEB'
-						size={30}
-						className={styles.icon}
-					/>
+					<LogOut color="#ECEEEB" size={30} className={styles.icon} />
 					<span className={styles.label}>Log out</span>
 				</button>
 			</nav>

@@ -9,7 +9,9 @@ export function useLogOut() {
 	const { logout } = useAuth();
 
 	const { mutate, isPending } = useMutation({
-		mutationFn: async () => { logout(); },
+		mutationFn: async () => {
+			logout();
+		},
 
 		onSuccess: () => {
 			logout();

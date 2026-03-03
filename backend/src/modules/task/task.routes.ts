@@ -3,6 +3,7 @@ import { TaskController } from './task.controller';
 
 import { ensureAuthenticated } from '../../middlewares/ensureAuthenticated.middleware';
 import { ensureUserExists } from '../../middlewares/ensureUserExists.middleware';
+import { apiLimiter } from '../../middlewares/rateLimiter';
 
 import { validate } from '../../middlewares/validation.middleware';
 import {
@@ -20,6 +21,7 @@ taskRoutes.get(
 	ensureAuthenticated,
 	ensureUserExists,
 	isInWorkspace,
+	apiLimiter,
 	taskController.listTask,
 );
 taskRoutes.post(
@@ -28,6 +30,7 @@ taskRoutes.post(
 	ensureAuthenticated,
 	ensureUserExists,
 	isInWorkspace,
+	apiLimiter,
 	taskController.createTask,
 );
 taskRoutes.put(
@@ -36,6 +39,7 @@ taskRoutes.put(
 	ensureAuthenticated,
 	ensureUserExists,
 	isInWorkspace,
+	apiLimiter,
 	taskController.updateTask,
 );
 taskRoutes.delete(
@@ -44,6 +48,7 @@ taskRoutes.delete(
 	ensureAuthenticated,
 	ensureUserExists,
 	isInWorkspace,
+	apiLimiter,
 	taskController.deleteTask,
 );
 
