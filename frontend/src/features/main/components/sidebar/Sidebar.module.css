@@ -14,7 +14,7 @@ nav {
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  gap: 1vh;
+  gap: 3vh;
 }
 
 .navItem {
@@ -23,6 +23,11 @@ nav {
   flex-direction: row;
   align-items: center;
   gap: 0.3vw;
+}
+
+.icon {
+  width: clamp(25px, 0.3vw, 50px);
+  height: auto;
 }
 
 .label {
@@ -42,6 +47,10 @@ nav {
 }
 
 @media (max-width: 1000px) {
+  aside {
+    align-items: center;
+  }
+
   .label {
     display: none;
   }
