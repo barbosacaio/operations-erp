@@ -4,6 +4,9 @@ aside {
   background-color: #8fa8a1;
   color: #eceeeb;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 nav {

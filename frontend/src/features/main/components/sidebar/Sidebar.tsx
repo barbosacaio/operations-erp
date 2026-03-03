@@ -1,5 +1,7 @@
 import { NavLink } from 'react-router-dom';
 
+import { useLogOut } from '../../hooks/useLogOut';
+
 import styles from './Sidebar.module.css';
 import {
 	UserRoundSearch,
@@ -8,9 +10,12 @@ import {
 	ListTodo,
 	CircleDollarSign,
 	ChartNoAxesCombined,
+	LogOut,
 } from 'lucide-react';
 
 export const Sidebar = () => {
+	const { logout: logOutUser, isPending } = useLogOut();
+
 	return (
 		<aside className={styles.aside}>
 			<nav>
@@ -58,6 +63,22 @@ export const Sidebar = () => {
 					/>
 					<span className={styles.label}>Reports</span>
 				</NavLink>
+			</nav>
+			<nav className={styles.aside}>
+				<button
+					type='button'
+					className={styles.navItem}
+					onClick={() => logOutUser()}
+					disabled={isPending}
+					style={{background: 'none', border: 'none', cursor: 'pointer'}}
+				>
+					<LogOut
+						color='#ECEEEB'
+						size={30}
+						className={styles.icon}
+					/>
+					<span className={styles.label}>Log out</span>
+				</button>
 			</nav>
 		</aside>
 	);
