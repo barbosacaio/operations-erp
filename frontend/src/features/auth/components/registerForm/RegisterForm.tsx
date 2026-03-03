@@ -24,7 +24,6 @@ export const RegisterForm = () => {
 					className={styles.registerFormField}
 					placeholder="Name"
 					{...register('name')}
-					minLength={3}
 					required
 				/>
 				<input
@@ -32,11 +31,10 @@ export const RegisterForm = () => {
 					className={styles.registerFormField}
 					placeholder="Surname"
 					{...register('surname')}
-					minLength={3}
 					required
 				/>
 				<input
-					type="email"
+					type="string"
 					className={styles.registerFormField}
 					placeholder="Email"
 					{...register('email')}
@@ -47,7 +45,6 @@ export const RegisterForm = () => {
 					className={styles.registerFormField}
 					placeholder="Password"
 					{...register('password')}
-					minLength={6}
 					required
 				/>
 				<input
@@ -55,7 +52,6 @@ export const RegisterForm = () => {
 					className={styles.registerFormField}
 					placeholder="Confirm password"
 					{...register('confirmPassword')}
-					minLength={6}
 					required
 				/>
 				<button

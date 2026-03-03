@@ -20,7 +20,7 @@ export const LoginForm = () => {
 				autoComplete="off"
 			>
 				<input
-					type="email"
+					type="string"
 					className={styles.loginFormField}
 					placeholder="Email"
 					{...register('email')}
@@ -31,7 +31,6 @@ export const LoginForm = () => {
 					className={styles.loginFormField}
 					placeholder="Password"
 					{...register('password')}
-					minLength={6}
 					required
 				/>
 				<button

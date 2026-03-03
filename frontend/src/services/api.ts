@@ -26,6 +26,10 @@ export class ApiError extends Error {
 	}
 }
 
+type ValidationField = {
+	errors?: string[];
+};
+
 instance.interceptors.response.use(
 	(response) => response,
 	(error) => {
@@ -33,8 +37,23 @@ instance.interceptors.response.use(
 			throw new ApiError('No server connection', 0);
 		}
 
-		const message = error.response.data?.message ?? 'Unexpected error';
-		const status = error.response.status;
+		const { data, status } = error.response;
+
+		let message = 'Unexpected error';
+
+		if (data?.error === 'Validation error') {
+			const validationErrors =
+				data?.details?.properties?.body?.properties;
+
+			if (validationErrors) {
+				const firstField = Object.values(
+					validationErrors,
+				)[0] as ValidationField;
+				message = firstField?.errors?.[0] ?? message;
+			}
+		} else {
+			message = data?.message ?? data?.error ?? message;
+		}
 
 		if (status === 401) {
 			const token = localStorage.getItem('token');
