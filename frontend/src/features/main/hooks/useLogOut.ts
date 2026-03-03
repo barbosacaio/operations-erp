@@ -9,9 +9,12 @@ export function useLogOut() {
 	const { logout } = useAuth();
 
 	const { mutate, isPending } = useMutation({
-		mutationFn: async () => {
-			logout();
-		},
+		mutationFn: () =>
+			toast.promise(Promise.resolve(logout()), {
+				loading: 'Logging out...',
+				success: null,
+				error: null,
+			}),
 
 		onSuccess: () => {
 			logout();

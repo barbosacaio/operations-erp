@@ -11,7 +11,12 @@ export function useLogin() {
 	const { login } = useAuth();
 
 	const { mutate, isPending } = useMutation({
-		mutationFn: (data: LoginRequest) => authService.login(data),
+		mutationFn: (data: LoginRequest) =>
+			toast.promise(authService.login(data), {
+				loading: 'Signing in...',
+				success: null,
+				error: null,
+			}),
 
 		onSuccess: ({ token, user }) => {
 			login(token);

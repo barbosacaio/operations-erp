@@ -11,7 +11,12 @@ export function useRegister() {
 	const { login } = useAuth();
 
 	const { mutate, isPending } = useMutation({
-		mutationFn: (data: RegisterRequest) => authService.register(data),
+		mutationFn: (data: RegisterRequest) =>
+			toast.promise(authService.register(data), {
+				loading: 'Registering...',
+				success: null,
+				error: null,
+			}),
 
 		onSuccess: ({ token, user }) => {
 			login(token);
