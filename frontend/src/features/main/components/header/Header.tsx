@@ -2,12 +2,13 @@ import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
 
 import styles from './Header.module.css';
-
-import userLogo from '@/assets/logos/userLogo.svg';
-import menuButton from '@/assets/logos/menuButton.svg';
-import feedbackLogo from '@/assets/logos/feedbackLogo.svg';
-import settingsLogo from '@/assets/logos/settingsLogo.svg';
-import searchLogo from '@/assets/logos/searchLogo.svg';
+import {
+	CircleUserRound,
+	Menu,
+	BotMessageSquare,
+	Settings,
+	Search,
+} from 'lucide-react';
 
 export const Header = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -28,23 +29,12 @@ export const Header = () => {
 				className={styles.menuButton}
 				onClick={() => setIsOpen(!isOpen)}
 			>
-				<img
-					src={menuButton}
-					alt="Menu button"
-					width={35}
-					height={35}
-				/>
+				<Menu color="#ECEEEB" size={35} />
 			</button>
 
 			<nav className={`${styles.nav} ${isOpen ? styles.open : ''}`}>
 				<NavLink to="/search" className={styles.navItem}>
-					<img
-						src={searchLogo}
-						alt="Search logo"
-						className={styles.icon}
-						width={35}
-						height={35}
-					/>
+					<Search color="#ECEEEB" size={35} className={styles.icon} />
 					<span className={styles.label}>Search</span>
 				</NavLink>
 				<NavLink
@@ -52,32 +42,26 @@ export const Header = () => {
 					target="_blank"
 					className={styles.navItem}
 				>
-					<img
-						src={feedbackLogo}
-						alt="Feedback logo"
+					<BotMessageSquare
+						color="#ECEEEB"
+						size={35}
 						className={styles.icon}
-						width={35}
-						height={35}
 					/>
 					<span className={styles.label}>Feedback</span>
 				</NavLink>
 				<NavLink to="/settings" className={styles.navItem}>
-					<img
-						src={settingsLogo}
-						alt="Settings logo"
+					<Settings
+						color="#ECEEEB"
+						size={35}
 						className={styles.icon}
-						width={35}
-						height={35}
 					/>
 					<span className={styles.label}>Settings</span>
 				</NavLink>
 				<NavLink to="/user/me" className={styles.userWrapper}>
-					<img
-						src={userLogo}
-						alt="User logo"
+					<CircleUserRound
+						color="#ECEEEB"
+						size={35}
 						className={styles.icon}
-						width={35}
-						height={35}
 					/>
 					<span className={styles.label}>Profile</span>
 				</NavLink>
