@@ -24,6 +24,12 @@ body,
 
 .content {
   flex: 1;
+  padding: 2vh 2vw;
+  background-color: #eceeeb;
+}
+
+.authContent {
+  flex: 1;
   padding: 0;
   background-color: #eceeeb;
 }

@@ -4,7 +4,7 @@ export const AuthLayout = () => {
 	return (
 		<div className="app">
 			<div className="main">
-				<div className="content">
+				<div className="authContent">
 					<Outlet />
 				</div>
 			</div>
