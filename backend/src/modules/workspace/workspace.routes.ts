@@ -8,6 +8,7 @@ import { apiLimiter } from '../../middlewares/rateLimiter';
 
 import { validate } from '../../middlewares/validation.middleware';
 import {
+	listWorkspaceSchema,
 	createWorkspaceSchema,
 	deleteWorkspaceSchema,
 	updateWorkspaceSchema,
@@ -25,6 +26,7 @@ workspaceRoutes.use('/:workspaceId/invoice', invoiceRoutes);
 
 workspaceRoutes.get(
 	'/',
+	validate(listWorkspaceSchema),
 	ensureAuthenticated,
 	ensureUserExists,
 	apiLimiter,

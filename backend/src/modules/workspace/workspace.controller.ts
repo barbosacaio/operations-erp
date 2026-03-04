@@ -3,13 +3,60 @@ import { prisma } from '../../database/prisma';
 
 export class WorkspaceController {
 	async listWorkspace(req: Request, res: Response) {
-		const workspaces = await prisma.workspace.findMany({
-			select: {
-				name: true,
-			},
-		});
+		const { search } = req.query;
 
-		return res.status(200).json(workspaces);
+		let workspaces, myWorkspaces;
+
+		if (typeof search === 'string') {
+			workspaces = await prisma.workspace.findMany({
+				where: {
+					OR: [
+						{ id: { contains: search, mode: 'insensitive' } },
+						{ name: { contains: search, mode: 'insensitive' } },
+					],
+				},
+				orderBy: {
+					name: 'asc',
+				},
+			});
+
+			myWorkspaces = await prisma.workspaceUser.findMany({
+				where: {
+					userId: req.user?.id,
+					workspace: {
+						OR: [
+							{ id: { contains: search, mode: 'insensitive' } },
+							{ name: { contains: search, mode: 'insensitive' } },
+						],
+					},
+				},
+				select: {
+					workspace: true,
+				},
+			});
+		} else {
+			workspaces = await prisma.workspace.findMany({
+				orderBy: { name: 'asc' },
+			});
+
+			myWorkspaces = await prisma.workspaceUser.findMany({
+				where: { userId: req.user?.id },
+				select: {
+					workspace: true,
+				},
+			});
+		}
+
+		const myWorkspacesIDs = new Set(
+			myWorkspaces.map((item) => item.workspace.id),
+		);
+		const filteredWorkspaces = workspaces.filter(
+			(workspace) => !myWorkspacesIDs.has(workspace.id),
+		);
+
+		return res
+			.status(200)
+			.json({ myWorkspaces, workspaces: filteredWorkspaces });
 	}
 
 	async createWorkspace(req: Request, res: Response) {

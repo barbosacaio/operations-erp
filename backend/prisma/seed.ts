@@ -43,6 +43,10 @@ async function main() {
 				id: '2',
 				name: 'Workspace 2',
 			},
+			{
+				id: '3',
+				name: 'Empty workspace',
+			},
 		],
 	});
 
