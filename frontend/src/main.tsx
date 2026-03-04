@@ -14,7 +14,7 @@ ReactDom.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
 		<AuthProvider>
 			<QueryClientProvider client={queryClient}>
-				<Toaster position="top-right" reverseOrder={true} />
+				<Toaster position="top-center" reverseOrder={true} />
 				<RouterProvider router={router} />
 			</QueryClientProvider>
 		</AuthProvider>

@@ -1,14 +1,22 @@
+import { useState } from 'react';
+
 import styles from './WorkspaceList.module.css';
-import { Search, LogIn, LogOut } from 'lucide-react';
+import { Search, LogIn, LogOut, X, Square, SquareCheckBig } from 'lucide-react';
 
 export const WorkspaceList = () => {
+	const [showMyWorkspaces, setShowMyWorkspaces] = useState(true);
+
+	const handleShowMyWorkspaces = () => {
+		setShowMyWorkspaces(!showMyWorkspaces);
+	};
+
 	return (
 		<div>
 			<span className={styles.pageTitle}>Find workspaces</span>
 			<form className={styles.searchForm} autoComplete="off">
 				<input
 					type="text"
-					placeholder="Search"
+					placeholder="Search by workspace name or ID"
 					className={styles.searchField}
 					required
 				/>
@@ -16,6 +24,24 @@ export const WorkspaceList = () => {
 					<Search className={styles.searchIcon} />
 				</button>
 			</form>
+			<div className={styles.filters}>
+				<button>
+					<X style={{ color: '#9C4C4C' }} />
+					<span>Clear search</span>
+				</button>
+				<button onClick={() => handleShowMyWorkspaces()}>
+					<Square
+						style={{ display: showMyWorkspaces ? 'none' : 'flex' }}
+					/>
+					<SquareCheckBig
+						style={{
+							color: '#52796F',
+							display: showMyWorkspaces ? 'flex' : 'none',
+						}}
+					/>
+					<span>Show my workspaces</span>
+				</button>
+			</div>
 			<table className={styles.workspaces}>
 				<thead className={styles.workspacesHead}>
 					<tr>
@@ -31,12 +57,14 @@ export const WorkspaceList = () => {
 						<td>Workspace 1</td>
 						<td>25/10/2026</td>
 						<td>
-							<button className={styles.joinButton}>
-								<LogIn className={styles.joinButtonIcon} />
-								<span className={styles.joinButtonLabel}>
-									Request to Join
-								</span>
-							</button>
+							<div className={styles.actions}>
+								<button className={styles.joinButton}>
+									<LogIn className={styles.joinButtonIcon} />
+									<span className={styles.joinButtonLabel}>
+										Request to Join
+									</span>
+								</button>
+							</div>
 						</td>
 					</tr>
 					<tr>
@@ -44,12 +72,14 @@ export const WorkspaceList = () => {
 						<td>Workspace 2</td>
 						<td>17/02/2025</td>
 						<td>
-							<button className={styles.joinButton}>
-								<LogIn className={styles.joinButtonIcon} />
-								<span className={styles.joinButtonLabel}>
-									Request to Join
-								</span>
-							</button>
+							<div className={styles.actions}>
+								<button className={styles.joinButton}>
+									<LogIn className={styles.joinButtonIcon} />
+									<span className={styles.joinButtonLabel}>
+										Request to Join
+									</span>
+								</button>
+							</div>
 						</td>
 					</tr>
 					<tr>
@@ -57,12 +87,22 @@ export const WorkspaceList = () => {
 						<td>Workspace 3</td>
 						<td>02/12/2025</td>
 						<td>
-							<button className={styles.quitButton}>
-								<LogOut className={styles.quitButtonIcon} />
-								<span className={styles.quitButtonLabel}>
-									Quit
-								</span>
-							</button>
+							<div className={styles.actions}>
+								<button className={styles.accessButton}>
+									<LogIn
+										className={styles.accessButtonIcon}
+									/>
+									<span className={styles.accessButtonLabel}>
+										Access
+									</span>
+								</button>
+								<button className={styles.quitButton}>
+									<LogOut className={styles.quitButtonIcon} />
+									<span className={styles.quitButtonLabel}>
+										Quit
+									</span>
+								</button>
+							</div>
 						</td>
 					</tr>
 					<tr>
@@ -70,12 +110,14 @@ export const WorkspaceList = () => {
 						<td>Workspace 4</td>
 						<td>02/12/2025</td>
 						<td>
-							<button className={styles.joinButton}>
-								<LogIn className={styles.joinButtonIcon} />
-								<span className={styles.joinButtonLabel}>
-									Request to Join
-								</span>
-							</button>
+							<div className={styles.actions}>
+								<button className={styles.joinButton}>
+									<LogIn className={styles.joinButtonIcon} />
+									<span className={styles.joinButtonLabel}>
+										Request to Join
+									</span>
+								</button>
+							</div>
 						</td>
 					</tr>
 				</tbody>
