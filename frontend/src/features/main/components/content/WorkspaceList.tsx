@@ -82,7 +82,12 @@ export const WorkspaceList = () => {
 					<X style={{ color: '#9C4C4C' }} />
 					<span>Clear search</span>
 				</button>
-				<button onClick={() => handleShowMyWorkspaces()}>
+				<button
+					onClick={() => handleShowMyWorkspaces()}
+					style={{
+						display: myWorkspaces.length !== 0 ? 'flex' : 'none',
+					}}
+				>
 					<Square
 						style={{ display: showMyWorkspaces ? 'none' : 'flex' }}
 					/>
