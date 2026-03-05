@@ -1,31 +1,84 @@
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { useListWorkspace } from '../../hooks/useListWorkspace';
+import type { WorkspaceSearchRequest } from '../../types/workspace';
 
 import styles from './WorkspaceList.module.css';
 import { Search, LogIn, LogOut, X, Square, SquareCheckBig } from 'lucide-react';
 
 export const WorkspaceList = () => {
+	const navigate = useNavigate();
 	const [showMyWorkspaces, setShowMyWorkspaces] = useState(true);
+	const [isSearching, setIsSearching] = useState(false);
+	const { myWorkspaces, workspaces, isLoading, refetch, setSearch } =
+		useListWorkspace();
+	const flattenedMyWorkspaces = myWorkspaces.flatMap((w) => w.workspace);
+
+	const { register, handleSubmit, setValue } =
+		useForm<WorkspaceSearchRequest>();
+
+	const isEmpty =
+		(!isLoading &&
+			flattenedMyWorkspaces.length === 0 &&
+			workspaces.length === 0) ||
+		(!isLoading && !showMyWorkspaces && workspaces.length === 0);
+
+	const onSubmit = async (data: WorkspaceSearchRequest) => {
+		setSearch(data.search ?? '');
+		if (data.search !== '') setIsSearching(true);
+		await refetch();
+	};
+
+	const clearSearch = async () => {
+		setSearch('');
+		setValue('search', '');
+		setIsSearching(false);
+	};
 
 	const handleShowMyWorkspaces = () => {
 		setShowMyWorkspaces(!showMyWorkspaces);
 	};
 
+	const accessWorkspace = (workspaceId: string) => {
+		navigate(`/workspace/${workspaceId}`);
+	};
+
+	const quitWorkspace = (workspaceId: string) => {
+		navigate(`/workspace/quit/${workspaceId}`);
+	};
+
+	const requestToJoinWorkspace = (workspaceId: string) => {
+		navigate(`/workspace/request/${workspaceId}`);
+	};
+
 	return (
 		<div>
 			<span className={styles.pageTitle}>Find workspaces</span>
-			<form className={styles.searchForm} autoComplete="off">
+			<form
+				className={styles.searchForm}
+				onSubmit={handleSubmit(onSubmit)}
+				autoComplete="off"
+			>
 				<input
 					type="text"
 					placeholder="Search by workspace name or ID"
 					className={styles.searchField}
-					required
+					{...register('search')}
 				/>
-				<button type="submit" className={styles.searchButton}>
+				<button
+					type="submit"
+					disabled={isLoading}
+					className={styles.searchButton}
+				>
 					<Search className={styles.searchIcon} />
 				</button>
 			</form>
 			<div className={styles.filters}>
-				<button>
+				<button
+					onClick={clearSearch}
+					style={{ display: isSearching ? 'flex' : 'none' }}
+				>
 					<X style={{ color: '#9C4C4C' }} />
 					<span>Clear search</span>
 				</button>
@@ -52,72 +105,102 @@ export const WorkspaceList = () => {
 					</tr>
 				</thead>
 				<tbody className={styles.workspacesBody}>
+					{flattenedMyWorkspaces.map((workspace) => (
+						<tr
+							key={workspace.id}
+							style={{ display: showMyWorkspaces ? '' : 'none' }}
+						>
+							<td>{workspace.id}</td>
+							<td>{workspace.name}</td>
+							<td>
+								{new Date(
+									workspace.createdAt,
+								).toLocaleDateString('en-US', {
+									month: '2-digit',
+									day: '2-digit',
+									year: 'numeric',
+								})}
+							</td>
+							<td>
+								<div className={styles.actions}>
+									<button
+										onClick={() =>
+											accessWorkspace(workspace.id)
+										}
+										className={styles.accessButton}
+									>
+										<LogIn
+											className={styles.accessButtonIcon}
+										/>
+										<span
+											className={styles.accessButtonLabel}
+										>
+											Access
+										</span>
+									</button>
+									<button
+										onClick={() =>
+											quitWorkspace(workspace.id)
+										}
+										className={styles.quitButton}
+									>
+										<LogOut
+											className={styles.quitButtonIcon}
+										/>
+										<span
+											className={styles.quitButtonLabel}
+										>
+											Quit
+										</span>
+									</button>
+								</div>
+							</td>
+						</tr>
+					))}
+					{workspaces.map((workspace) => (
+						<tr key={workspace.id}>
+							<td>{workspace.id}</td>
+							<td>{workspace.name}</td>
+							<td>
+								{new Date(
+									workspace.createdAt,
+								).toLocaleDateString('en-US', {
+									month: '2-digit',
+									day: '2-digit',
+									year: 'numeric',
+								})}
+							</td>
+							<td>
+								<div className={styles.actions}>
+									<button
+										onClick={() =>
+											requestToJoinWorkspace(workspace.id)
+										}
+										className={styles.joinButton}
+									>
+										<LogIn
+											className={styles.joinButtonIcon}
+										/>
+										<span
+											className={styles.joinButtonLabel}
+										>
+											Request to Join
+										</span>
+									</button>
+								</div>
+							</td>
+						</tr>
+					))}
 					<tr>
-						<td>1</td>
-						<td>Workspace 1</td>
-						<td>25/10/2026</td>
-						<td>
-							<div className={styles.actions}>
-								<button className={styles.joinButton}>
-									<LogIn className={styles.joinButtonIcon} />
-									<span className={styles.joinButtonLabel}>
-										Request to Join
-									</span>
-								</button>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>Workspace 2</td>
-						<td>17/02/2025</td>
-						<td>
-							<div className={styles.actions}>
-								<button className={styles.joinButton}>
-									<LogIn className={styles.joinButtonIcon} />
-									<span className={styles.joinButtonLabel}>
-										Request to Join
-									</span>
-								</button>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td>Workspace 3</td>
-						<td>02/12/2025</td>
-						<td>
-							<div className={styles.actions}>
-								<button className={styles.accessButton}>
-									<LogIn
-										className={styles.accessButtonIcon}
-									/>
-									<span className={styles.accessButtonLabel}>
-										Access
-									</span>
-								</button>
-								<button className={styles.quitButton}>
-									<LogOut className={styles.quitButtonIcon} />
-									<span className={styles.quitButtonLabel}>
-										Quit
-									</span>
-								</button>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>4</td>
-						<td>Workspace 4</td>
-						<td>02/12/2025</td>
-						<td>
-							<div className={styles.actions}>
-								<button className={styles.joinButton}>
-									<LogIn className={styles.joinButtonIcon} />
-									<span className={styles.joinButtonLabel}>
-										Request to Join
-									</span>
-								</button>
-							</div>
+						<td
+							colSpan={4}
+							style={{
+								display: isEmpty ? '' : 'none',
+								alignContent: 'center',
+								padding: 'clamp(20px, 1.5vw, 60px)',
+							}}
+						>
+							No workspaces found
 						</td>
 					</tr>
 				</tbody>

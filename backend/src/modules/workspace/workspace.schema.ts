@@ -2,12 +2,7 @@ import { z } from 'zod';
 
 export const listWorkspaceSchema = z.object({
 	query: z.object({
-		search: z
-			.string()
-			.min(1, {
-				message: 'The search can not be empty',
-			})
-			.optional(),
+		search: z.string().optional(),
 	}),
 });
 
