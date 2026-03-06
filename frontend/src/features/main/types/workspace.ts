@@ -2,6 +2,10 @@ export type WorkspaceSearchRequest = {
 	search?: string;
 };
 
+export type WorkspaceCreateRequest = {
+	name: string;
+};
+
 export type WorkspaceResponse = {
 	id: string;
 	name: string;

@@ -1,5 +1,9 @@
 import { api } from '@/services/api';
-import type { WorkspaceListResponse } from '../types/workspace';
+import type {
+	WorkspaceCreateRequest,
+	WorkspaceListResponse,
+	WorkspaceResponse,
+} from '../types/workspace';
 
 export const workspaceService = {
 	list: (search: string) =>
@@ -7,4 +11,6 @@ export const workspaceService = {
 			'/workspace',
 			search ? { search } : undefined,
 		),
+	create: (data: WorkspaceCreateRequest) =>
+		api.post<WorkspaceResponse>('/workspace/add', data),
 };
