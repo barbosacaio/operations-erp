@@ -1,226 +1,232 @@
 import { prisma } from '../src/database/prisma';
 import { hashPassword } from '../src/services/password.service';
-import { ProjectStatus, WorkspaceRole } from '@prisma/client';
+import {
+	InvoiceStatus,
+	InvoiceTarget,
+	InvoiceType,
+	ProjectStatus,
+	TaskPriority,
+	TaskStatus,
+	WorkspaceRole,
+} from '@prisma/client';
+import { faker } from '@faker-js/faker';
 
 async function main() {
-	const hashedPassword1 = await hashPassword('admin123');
-	const hashedPassword2 = await hashPassword('admin456');
-	const hashedPassword3 = await hashPassword('admin789');
+	const users = [
+		{
+			id: 'user1',
+			name: faker.person.firstName(),
+			surname: faker.person.lastName(),
+			email: faker.internet.email(),
+			passwordHash: await hashPassword(faker.internet.password()),
+		},
+		{
+			id: 'user2',
+			name: faker.person.firstName(),
+			surname: faker.person.lastName(),
+			email: faker.internet.email(),
+			passwordHash: await hashPassword(faker.internet.password()),
+		},
+		{
+			id: 'user3',
+			name: faker.person.firstName(),
+			surname: faker.person.lastName(),
+			email: faker.internet.email(),
+			passwordHash: await hashPassword(faker.internet.password()),
+		},
+	];
 
-	const users = await prisma.user.createMany({
-		data: [
-			{
-				id: '1',
-				name: 'Admin',
-				surname: 'One',
-				email: 'admin1@example.com',
-				passwordHash: hashedPassword1,
-			},
-			{
-				id: '2',
-				name: 'Admin',
-				surname: 'Two',
-				email: 'admin2@example.com',
-				passwordHash: hashedPassword2,
-			},
-			{
-				id: '3',
-				name: 'Admin',
-				surname: 'Three',
-				email: 'admin3@example.com',
-				passwordHash: hashedPassword3,
-			},
-		],
-	});
+	const workspaces = [
+		{
+			id: 'workspace1',
+			name: faker.company.name(),
+		},
+		{
+			id: 'workspace2',
+			name: faker.company.name(),
+		},
+		{
+			id: 'workspace3',
+			name: faker.company.name(),
+		},
+		{
+			id: 'workspace4',
+			name: faker.company.name(),
+		},
+	];
 
-	const workspaces = await prisma.workspace.createMany({
-		data: [
-			{
-				id: '1',
-				name: 'Workspace 1',
-			},
-			{
-				id: '2',
-				name: 'Workspace 2',
-			},
-			{
-				id: '3',
-				name: 'Empty workspace',
-			},
-		],
-	});
+	const departments = [
+		{
+			id: 'department1',
+			name: faker.lorem.word(),
+			workspaceId: 'workspace1',
+		},
+		{
+			id: 'department2',
+			name: faker.lorem.word(),
+			workspaceId: 'workspace1',
+		},
+		{
+			id: 'department3',
+			name: faker.lorem.word(),
+			workspaceId: 'workspace2',
+		},
+		{
+			id: 'department4',
+			name: faker.lorem.word(),
+			workspaceId: 'workspace2',
+		},
+		{
+			id: 'department5',
+			name: faker.lorem.word(),
+			workspaceId: 'workspace3',
+		},
+		{
+			id: 'department6',
+			name: faker.lorem.word(),
+			workspaceId: 'workspace3',
+		},
+		{
+			id: 'department7',
+			name: faker.lorem.word(),
+			workspaceId: 'workspace4',
+		},
+		{
+			id: 'department8',
+			name: faker.lorem.word(),
+			workspaceId: 'workspace4',
+		},
+	];
 
-	const departments = await prisma.department.createMany({
-		data: [
-			{
-				id: '1',
-				name: 'Department 1',
-				workspaceId: '1',
-			},
-			{
-				id: '2',
-				name: 'Department 2',
-				workspaceId: '1',
-			},
-			{
-				id: '3',
-				name: 'Department 3',
-				workspaceId: '2',
-			},
-			{
-				id: '4',
-				name: 'Department 4',
-				workspaceId: '2',
-			},
-		],
-	});
+	const workspaceUsers = [
+		{
+			id: 'workspaceuser1',
+			role: WorkspaceRole.OWNER,
+			userId: 'user1',
+			departmentId: 'department1',
+			workspaceId: 'workspace1',
+		},
+		{
+			id: 'workspaceuser2',
+			role: WorkspaceRole.MEMBER,
+			userId: 'user1',
+			departmentId: 'department3',
+			workspaceId: 'workspace2',
+		},
+		{
+			id: 'workspaceuser3',
+			role: WorkspaceRole.ADMIN,
+			userId: 'user2',
+			departmentId: 'department2',
+			workspaceId: 'workspace1',
+		},
+		{
+			id: 'workspaceuser4',
+			role: WorkspaceRole.OWNER,
+			userId: 'user2',
+			departmentId: 'department4',
+			workspaceId: 'workspace2',
+		},
+	];
 
-	const workspaceUsers = await prisma.workspaceUser.createMany({
-		data: [
-			{
-				id: '1',
-				role: WorkspaceRole.OWNER,
-				userId: '1',
-				departmentId: '1',
-				workspaceId: '1',
-			},
-			{
-				id: '2',
-				role: WorkspaceRole.MEMBER,
-				userId: '2',
-				departmentId: '2',
-				workspaceId: '1',
-			},
-			{
-				id: '3',
-				role: WorkspaceRole.MEMBER,
-				userId: '1',
-				departmentId: '3',
-				workspaceId: '2',
-			},
-			{
-				id: '4',
-				role: WorkspaceRole.OWNER,
-				userId: '2',
-				departmentId: '4',
-				workspaceId: '2',
-			},
-		],
-	});
+	const projects = [
+		{
+			id: 'project1',
+			name: faker.lorem.word(),
+			description: faker.lorem.sentence(),
+			departmentId: 'department1',
+			status: ProjectStatus.ONGOING,
+		},
+		{
+			id: 'project2',
+			name: faker.lorem.word(),
+			description: faker.lorem.sentence(),
+			departmentId: 'department2',
+			status: ProjectStatus.FINISHED,
+		},
+		{
+			id: 'project3',
+			name: faker.lorem.word(),
+			description: faker.lorem.sentence(),
+			departmentId: 'department4',
+			status: ProjectStatus.BACKLOG,
+		},
+	];
 
-	const projects = await prisma.project.createMany({
-		data: [
-			{
-				id: '1',
-				name: 'Project 1',
-				description: 'Finish project 1',
-				departmentId: '1',
-				status: ProjectStatus.ONGOING,
-			},
-			{
-				id: '2',
-				name: 'Project 2',
-				description: 'Finish project 2',
-				departmentId: '1',
-				status: ProjectStatus.BACKLOG,
-			},
-			{
-				id: '3',
-				name: 'Project 3',
-				description: 'Finish project 3',
-				departmentId: '3',
-				status: ProjectStatus.FINISHED,
-			},
-		],
-	});
+	const tasks = [
+		{
+			name: faker.lorem.words(),
+			description: faker.lorem.sentences(),
+			assigneeId: 'workspaceuser1',
+			projectId: 'project1',
+			dueDate: faker.date.future(),
+			priority: TaskPriority.HIGH,
+			status: TaskStatus.ONGOING,
+		},
+		{
+			name: faker.lorem.words(),
+			description: faker.lorem.sentences(),
+			assigneeId: 'workspaceuser3',
+			projectId: 'project2',
+			dueDate: faker.date.future(),
+			priority: TaskPriority.LOW,
+			status: TaskStatus.BACKLOG,
+		},
+		{
+			name: faker.lorem.words(),
+			description: faker.lorem.sentences(),
+			assigneeId: 'workspaceuser2',
+			projectId: 'project3',
+			dueDate: faker.date.future(),
+			priority: TaskPriority.MEDIUM,
+			status: TaskStatus.PAUSED,
+		},
+	];
 
-	const tasks = await prisma.task.createMany({
-		data: [
-			{
-				id: '1',
-				name: 'Task 1',
-				description: 'Finish task 1',
-				assigneeId: '1',
-				projectId: '1',
-				dueDate: new Date(2026, 12, 12),
-				priority: 'HIGH',
-				status: 'ONGOING',
-			},
-			{
-				id: '2',
-				name: 'Task 2',
-				description: 'Finish task 2',
-				assigneeId: '2',
-				projectId: '2',
-				dueDate: new Date(2026, 12, 12),
-				priority: 'CRITICAL',
-				status: 'PAUSED',
-			},
-			{
-				id: '3',
-				name: 'Task 3',
-				description: 'Finish task 3',
-				assigneeId: '3',
-				projectId: '3',
-				dueDate: new Date(2026, 12, 12),
-				priority: 'LOW',
-				status: 'CANCELLED',
-			},
-		],
-	});
+	const invoices = [
+		{
+			type: InvoiceType.INCOME,
+			value: faker.number.int({ min: 1, max: 100000 }),
+			target: InvoiceTarget.CUSTOMER,
+			status: InvoiceStatus.PAID,
+			dueDate: new Date(2026, 12, 20),
+			paidDate: new Date(2026, 10, 18),
+			workspaceId: 'workspace1',
+		},
+		{
+			type: InvoiceType.EXPENSE,
+			value: faker.number.int({ min: 1, max: 100000 }),
+			target: InvoiceTarget.AFFILIATE,
+			status: InvoiceStatus.CANCELLED,
+			dueDate: new Date(2025, 8, 12),
+			workspaceId: 'workspace1',
+		},
+		{
+			type: InvoiceType.INCOME,
+			value: faker.number.int({ min: 1, max: 100000 }),
+			target: InvoiceTarget.VENDOR,
+			status: InvoiceStatus.EXPIRED,
+			dueDate: new Date(2025, 1, 12),
+			workspaceId: 'workspace2',
+		},
+		{
+			type: InvoiceType.INCOME,
+			value: faker.number.int({ min: 1, max: 100000 }),
+			target: InvoiceTarget.PARTNER,
+			status: InvoiceStatus.UNPAID,
+			dueDate: new Date(2026, 2, 10),
+			paidDate: new Date(2026, 1, 18),
+			workspaceId: 'workspace3',
+		},
+	];
 
-	const invoices = await prisma.invoice.createMany({
-		data: [
-			{
-				id: '1',
-				type: 'INCOME',
-				value: 9000,
-				target: 'CUSTOMER',
-				status: 'PAID',
-				dueDate: new Date(2026, 10, 1),
-				paidDate: new Date(2026, 2, 2),
-				workspaceId: '1',
-			},
-			{
-				id: '2',
-				type: 'EXPENSE',
-				value: 12000,
-				target: 'EMPLOYEE',
-				status: 'UNPAID',
-				dueDate: new Date(2026, 9, 1),
-				workspaceId: '1',
-			},
-			{
-				id: '3',
-				type: 'EXPENSE',
-				value: 6690,
-				target: 'SUPPLIER',
-				status: 'EXPIRED',
-				dueDate: new Date(2026, 1, 10),
-				workspaceId: '2',
-			},
-			{
-				id: '4',
-				type: 'INCOME',
-				value: 10920,
-				target: 'PARTNER',
-				status: 'PAID',
-				dueDate: new Date(2026, 2, 20),
-				paidDate: new Date(2026, 2, 10),
-				workspaceId: '2',
-			},
-		],
-	});
-
-	console.log({
-		users,
-		workspaces,
-		departments,
-		workspaceUsers,
-		projects,
-		tasks,
-		invoices,
-	});
+	await prisma.user.createMany({ data: users });
+	await prisma.workspace.createMany({ data: workspaces });
+	await prisma.department.createMany({ data: departments });
+	await prisma.workspaceUser.createMany({ data: workspaceUsers });
+	await prisma.project.createMany({ data: projects });
+	await prisma.task.createMany({ data: tasks });
+	await prisma.invoice.createMany({ data: invoices });
 }
 
 main()
