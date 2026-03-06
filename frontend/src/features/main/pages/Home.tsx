@@ -1,4 +1,4 @@
-import { WorkspaceList } from '../components/content/WorkspaceList';
+import { WorkspaceList } from '../components/content/lists/WorkspaceList';
 
 export default function Home() {
 	return (

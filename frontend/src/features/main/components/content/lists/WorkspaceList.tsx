@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useListWorkspace } from '../../hooks/useListWorkspace';
-import type { WorkspaceSearchRequest } from '../../types/workspace';
+import { useListWorkspace } from '../../../hooks/useListWorkspace';
+import type { WorkspaceSearchRequest } from '../../../types/workspace';
 
 import styles from './WorkspaceList.module.css';
 import { Search, LogIn, LogOut, X, Square, SquareCheckBig } from 'lucide-react';
@@ -54,7 +54,7 @@ export const WorkspaceList = () => {
 
 	return (
 		<div>
-			<span className={styles.pageTitle}>Find workspaces</span>
+			<h2>Find workspaces</h2>
 			<form
 				className={styles.searchForm}
 				onSubmit={handleSubmit(onSubmit)}

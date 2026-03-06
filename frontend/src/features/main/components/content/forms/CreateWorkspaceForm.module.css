@@ -1,0 +1,76 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+
+.form {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5vw;
+}
+
+.nameField {
+  background: #fff;
+  padding: clamp(20px, 1vw, 40px);
+  border: solid #8fa8a1 1px;
+  border-radius: clamp(2px, 10px, 10px);
+  width: 30%;
+  outline: none;
+}
+
+.submitButton {
+  background: #84a98c;
+  color: #fff;
+  padding: clamp(10px, 1vw, 30px);
+  width: 10%;
+  border: solid #8fa8a1 1px;
+  border-left: none;
+  border-radius: clamp(2px, 10px, 10px);
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background: #52796f;
+}
+
+.nameGeneratorSpan {
+  font-size: large;
+}
+
+.nameGeneratorButton {
+  margin-left: 5px;
+  background: none;
+  border: none;
+  font-size: large;
+  color: #52796f;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  h2 {
+    align-self: center;
+  }
+
+  .form {
+    flex-direction: column;
+    gap: 3vh;
+  }
+
+  .nameField {
+    width: 95%;
+    align-self: center;
+  }
+
+  .submitButton {
+    width: 50%;
+    align-self: center;
+    margin-bottom: 10px;
+  }
+
+  .nameGeneratorSpan,
+  .nameGeneratorButton {
+    font-size: medium;
+    align-self: center;
+  }
+}
