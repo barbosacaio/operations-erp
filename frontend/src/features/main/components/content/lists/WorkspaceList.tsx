@@ -3,9 +3,18 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useListWorkspace } from '../../../hooks/useListWorkspace';
 import type { WorkspaceSearchRequest } from '../../../types/workspace';
+import toast from 'react-hot-toast';
 
 import styles from './WorkspaceList.module.css';
-import { Search, LogIn, LogOut, X, Square, SquareCheckBig } from 'lucide-react';
+import {
+	Search,
+	LogIn,
+	LogOut,
+	X,
+	Square,
+	SquareCheckBig,
+	Copy,
+} from 'lucide-react';
 
 export const WorkspaceList = () => {
 	const navigate = useNavigate();
@@ -38,6 +47,15 @@ export const WorkspaceList = () => {
 
 	const handleShowMyWorkspaces = () => {
 		setShowMyWorkspaces(!showMyWorkspaces);
+	};
+
+	const copyWorkspaceID = async (workspaceId: string) => {
+		try {
+			await navigator.clipboard.writeText(workspaceId);
+			toast.success('Copied workspace ID!');
+		} catch {
+			toast.error('Could not copy');
+		}
 	};
 
 	const accessWorkspace = (workspaceId: string) => {
@@ -115,7 +133,16 @@ export const WorkspaceList = () => {
 							key={workspace.id}
 							style={{ display: showMyWorkspaces ? '' : 'none' }}
 						>
-							<td>{workspace.id}</td>
+							<td>
+								<button
+									className={styles.copyButton}
+									onClick={() =>
+										copyWorkspaceID(workspace.id)
+									}
+								>
+									<Copy />
+								</button>
+							</td>
 							<td>{workspace.name}</td>
 							<td>
 								{new Date(
@@ -164,7 +191,16 @@ export const WorkspaceList = () => {
 					))}
 					{workspaces.map((workspace) => (
 						<tr key={workspace.id}>
-							<td>{workspace.id}</td>
+							<td>
+								<button
+									className={styles.copyButton}
+									onClick={() =>
+										copyWorkspaceID(workspace.id)
+									}
+								>
+									<Copy />
+								</button>
+							</td>
 							<td>{workspace.name}</td>
 							<td>
 								{new Date(

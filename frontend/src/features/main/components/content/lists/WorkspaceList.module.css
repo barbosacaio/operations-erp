@@ -92,6 +92,17 @@
   border-bottom: none;
 }
 
+.copyButton {
+  background: none;
+  border: none;
+  border-radius: clamp(3px, 1vw, 8px);
+  padding: clamp(3px, 1vw, 7px);
+}
+
+.copyButton:hover {
+  background: #cad2c5;
+}
+
 .actions {
   display: flex;
   justify-content: center;
