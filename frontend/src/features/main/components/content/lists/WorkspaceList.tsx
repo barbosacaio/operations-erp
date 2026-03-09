@@ -59,6 +59,7 @@ export const WorkspaceList = () => {
 	};
 
 	const accessWorkspace = (workspaceId: string) => {
+		toast.success('Accessing workspace...');
 		navigate(`/workspace/${workspaceId}`);
 	};
 
