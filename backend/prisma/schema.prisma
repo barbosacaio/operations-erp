@@ -15,6 +15,7 @@ model User {
     createdAt DateTime @default(now())
 
     workspaces WorkspaceUser[]
+    invitesRequests WorkspaceInviteRequest[]
 }
 
 model Workspace {
@@ -23,6 +24,7 @@ model Workspace {
     createdAt DateTime @default(now())
 
     users WorkspaceUser[]
+    invitesRequests WorkspaceInviteRequest[]
     departments Department[]
     invoices Invoice[]
 }
@@ -48,6 +50,22 @@ enum WorkspaceRole {
     OWNER
     ADMIN
     MEMBER
+}
+
+model WorkspaceInviteRequest {
+    id String @id @default(uuid())
+    userId String
+    workspaceId String
+    type WorkspaceInviteRequestType
+    createdAt DateTime @default(now())
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+enum WorkspaceInviteRequestType {
+    INVITE
+    REQUEST
 }
 
 model Department {

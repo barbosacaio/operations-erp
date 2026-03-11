@@ -80,7 +80,9 @@
   - `/workspace/:workspaceId/delete` - Delete an existing workspace (OWNER)
 - **User**
   - `/workspace/:workspaceId/user` - Lists users from a workspace
-  - `/workspace/:workspaceId/user/add` - Adds an existing user into a workspace (ADMIN)
+  - `/workspace/:workspaceId/user/add` - Invites an existing user into a workspace (ADMIN)
+  - `/workspace/:workspaceId/user/join` - Requests to join an existing workspace
+  - `/workspace/:workspaceId/user/quit` - Quits a workspace you participate
   - `/workspace/:workspaceId/user/:userId/update` - Edit an user from your workspace (ADMIN)
   - `/workspace/:workspaceId/user/:userId/delete` - Removes an user from your workspace (ADMIN)
 - **Department**

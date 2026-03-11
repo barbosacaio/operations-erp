@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../../database/prisma';
-import { WorkspaceRole } from '@prisma/client';
+import { WorkspaceRole, WorkspaceInviteRequestType } from '@prisma/client';
 import { AppError } from '../../errors/AppError';
 
 export class UserController {
@@ -28,9 +28,8 @@ export class UserController {
 	}
 
 	async addWorkspaceUser(req: Request, res: Response) {
-		const { email, role } = req.body;
+		const { email } = req.body;
 		const workspaceId = req.params.workspaceId as string;
-		const departmentId = req.query.departmentId as string;
 
 		const user = await prisma.user.findFirst({
 			where: { email: email },
@@ -41,49 +40,10 @@ export class UserController {
 			throw new AppError("This user doesn't exist", 404);
 		}
 
-		const data: {
-			userId: string;
-			workspaceId: string;
-			departmentId?: string;
-			role?: WorkspaceRole;
-		} = {
-			userId: user?.id as string,
-			workspaceId,
-		};
-
-		if (departmentId) {
-			if (
-				await prisma.department.findFirst({
-					where: { id: departmentId, workspaceId: workspaceId },
-				})
-			) {
-				data.departmentId = departmentId;
-			} else {
-				throw new AppError("This department doesn't exist", 404);
-			}
-		}
-
-		if (role) {
-			const currentUserRole = await prisma.workspaceUser.findFirst({
-				where: {
-					userId: req.user?.id,
-					workspaceId: workspaceId,
-				},
-				select: { role: true },
-			});
-
-			if (role === 'OWNER' && currentUserRole?.role !== 'OWNER') {
-				throw new AppError(
-					"You can't set an user as an 'OWNER' unless you are an owner",
-					403,
-				);
-			}
-
-			data.role = role;
-		}
-
 		if (
-			await prisma.workspaceUser.findFirst({ where: { userId: user.id } })
+			await prisma.workspaceUser.findFirst({
+				where: { userId: user.id, workspaceId: workspaceId },
+			})
 		) {
 			throw new AppError(
 				'This user is already part of this workspace',
@@ -91,11 +51,47 @@ export class UserController {
 			);
 		}
 
-		const addedUser = await prisma.workspaceUser.create({
-			data,
+		if (
+			await prisma.workspaceInviteRequest.findFirst({
+				where: { userId: user.id, workspaceId: workspaceId },
+			})
+		) {
+			throw new AppError(
+				'This user already has a pending invite to this workspace',
+				409,
+			);
+		}
+
+		const invitedUser = await prisma.workspaceInviteRequest.create({
+			data: {
+				type: WorkspaceInviteRequestType.INVITE,
+				userId: user.id,
+				workspaceId: workspaceId,
+			},
 		});
 
-		return res.status(200).json(addedUser);
+		return res.status(200).json(invitedUser);
+	}
+
+	async joinWorkspace(req: Request, res: Response) {
+		const userId = req.user?.id;
+		const workspaceId = req.params.workspaceId as string;
+
+		if (
+			!(await prisma.workspace.findUnique({ where: { id: workspaceId } }))
+		) {
+			throw new AppError("This workspace doesn't exist", 404);
+		}
+
+		const requestToJoin = await prisma.workspaceInviteRequest.create({
+			data: {
+				type: WorkspaceInviteRequestType.REQUEST,
+				userId: userId as string,
+				workspaceId: workspaceId,
+			},
+		});
+
+		return res.status(200).json(requestToJoin);
 	}
 
 	async updateWorkspaceUser(req: Request, res: Response) {
@@ -194,6 +190,28 @@ export class UserController {
 				userId_workspaceId: {
 					workspaceId: workspaceId,
 					userId: userId,
+				},
+			},
+		});
+
+		return res.status(204).send();
+	}
+
+	async quitWorkspace(req: Request, res: Response) {
+		const userId = req.user?.id as string;
+		const workspaceId = req.params.workspaceId as string;
+
+		if (
+			!(await prisma.workspace.findUnique({ where: { id: workspaceId } }))
+		) {
+			throw new AppError("This workspace doesn't exist", 404);
+		}
+
+		await prisma.workspaceUser.delete({
+			where: {
+				userId_workspaceId: {
+					userId: userId,
+					workspaceId: workspaceId,
 				},
 			},
 		});

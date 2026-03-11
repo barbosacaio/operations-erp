@@ -36,6 +36,13 @@ userRoutes.post(
 	apiLimiter,
 	userController.addWorkspaceUser,
 );
+userRoutes.post(
+	'/join',
+	ensureAuthenticated,
+	ensureUserExists,
+	apiLimiter,
+	userController.joinWorkspace,
+);
 userRoutes.put(
 	'/:userId/update',
 	validate(updateWorkspaceUserSchema),
@@ -53,6 +60,14 @@ userRoutes.delete(
 	isAdmin,
 	apiLimiter,
 	userController.deleteWorkspaceUser,
+);
+userRoutes.delete(
+	'/quit',
+	ensureAuthenticated,
+	ensureUserExists,
+	isInWorkspace,
+	apiLimiter,
+	userController.quitWorkspace,
 );
 
 export default userRoutes;
