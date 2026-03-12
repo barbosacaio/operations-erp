@@ -2,7 +2,12 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useListWorkspace } from '../../../hooks/useListWorkspace';
-import type { WorkspaceSearchRequest } from '../../../types/workspace';
+import { useJoinWorkspace } from '@/features/main/hooks/useJoinWorkspace';
+import { useQuitWorkspace } from '@/features/main/hooks/useQuitWorkspace';
+import type {
+	WorkspaceJoinQuitRequest,
+	WorkspaceSearchRequest,
+} from '../../../types/workspace';
 import toast from 'react-hot-toast';
 
 import styles from './WorkspaceList.module.css';
@@ -22,6 +27,8 @@ export const WorkspaceList = () => {
 	const [isSearching, setIsSearching] = useState(false);
 	const { myWorkspaces, workspaces, isLoading, refetch, setSearch } =
 		useListWorkspace();
+	const { joinWorkspace, isPendingJoin } = useJoinWorkspace();
+	const { quitWorkspaceRequest, isPendingQuit } = useQuitWorkspace();
 	const flattenedMyWorkspaces = myWorkspaces.flatMap((w) => w.workspace);
 
 	const { register, handleSubmit, setValue } =
@@ -63,12 +70,12 @@ export const WorkspaceList = () => {
 		navigate(`/workspace/${workspaceId}`);
 	};
 
-	const quitWorkspace = (workspaceId: string) => {
-		navigate(`/workspace/quit/${workspaceId}`);
+	const quitWorkspace = (workspaceId: WorkspaceJoinQuitRequest) => {
+		quitWorkspaceRequest(workspaceId);
 	};
 
-	const requestToJoinWorkspace = (workspaceId: string) => {
-		navigate(`/workspace/request/${workspaceId}`);
+	const requestToJoinWorkspace = (workspaceId: WorkspaceJoinQuitRequest) => {
+		joinWorkspace(workspaceId);
 	};
 
 	return (
@@ -173,8 +180,9 @@ export const WorkspaceList = () => {
 									</button>
 									<button
 										onClick={() =>
-											quitWorkspace(workspace.id)
+											quitWorkspace({ id: workspace.id })
 										}
+										disabled={isPendingQuit}
 										className={styles.quitButton}
 									>
 										<LogOut
@@ -216,8 +224,11 @@ export const WorkspaceList = () => {
 								<div className={styles.actions}>
 									<button
 										onClick={() =>
-											requestToJoinWorkspace(workspace.id)
+											requestToJoinWorkspace({
+												id: workspace.id,
+											})
 										}
+										disabled={isPendingJoin}
 										className={styles.joinButton}
 									>
 										<LogIn
