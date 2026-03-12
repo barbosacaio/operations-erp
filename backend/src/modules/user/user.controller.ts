@@ -83,6 +83,17 @@ export class UserController {
 			throw new AppError("This workspace doesn't exist", 404);
 		}
 
+		if (
+			await prisma.workspaceInviteRequest.findFirst({
+				where: { userId: userId, workspaceId: workspaceId },
+			})
+		) {
+			throw new AppError(
+				'You already have a pending invite/request to this workspace',
+				409,
+			);
+		}
+
 		const requestToJoin = await prisma.workspaceInviteRequest.create({
 			data: {
 				type: WorkspaceInviteRequestType.REQUEST,
@@ -185,14 +196,27 @@ export class UserController {
 			);
 		}
 
-		await prisma.workspaceUser.delete({
+		const workspaceUsers = await prisma.workspaceUser.findMany({
 			where: {
-				userId_workspaceId: {
-					workspaceId: workspaceId,
-					userId: userId,
-				},
+				userId: userId,
+				workspaceId: workspaceId,
 			},
 		});
+
+		if (workspaceUsers.length === 1) {
+			await prisma.workspace.delete({
+				where: { id: workspaceId },
+			});
+		} else {
+			await prisma.workspaceUser.delete({
+				where: {
+					userId_workspaceId: {
+						userId: userId,
+						workspaceId: workspaceId,
+					},
+				},
+			});
+		}
 
 		return res.status(204).send();
 	}
@@ -207,14 +231,27 @@ export class UserController {
 			throw new AppError("This workspace doesn't exist", 404);
 		}
 
-		await prisma.workspaceUser.delete({
+		const workspaceUsers = await prisma.workspaceUser.findMany({
 			where: {
-				userId_workspaceId: {
-					userId: userId,
-					workspaceId: workspaceId,
-				},
+				userId: userId,
+				workspaceId: workspaceId,
 			},
 		});
+
+		if (workspaceUsers.length === 1) {
+			await prisma.workspace.delete({
+				where: { id: workspaceId },
+			});
+		} else {
+			await prisma.workspaceUser.delete({
+				where: {
+					userId_workspaceId: {
+						userId: userId,
+						workspaceId: workspaceId,
+					},
+				},
+			});
+		}
 
 		return res.status(204).send();
 	}
