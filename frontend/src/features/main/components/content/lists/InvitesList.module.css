@@ -1,0 +1,103 @@
+.invites {
+  background: #8fa8a1;
+  width: 100%;
+  margin-top: 2vh;
+  border: solid #8fa8a1 0.5px;
+  border-radius: clamp(2px, 10px, 10px);
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+}
+
+.invitesHead > tr > th {
+  background: #eceeeb;
+  border-bottom: solid #8fa8a1 1px;
+  padding: 1vh 1vw;
+  font-size: clamp(18px, 1vw, 54px);
+  font-weight: clamp(300, 500, 900);
+}
+
+.invitesBody > tr > td {
+  background: #fff;
+  border-bottom: solid #8fa8a1 0.5px;
+  padding: 0.6vh 0.6vw;
+  font-size: clamp(15px, 0.6vw, 45px);
+  font-weight: clamp(200, 400, 600);
+  text-align: center;
+}
+
+.invitesBody > tr:nth-last-child(1) > td {
+  border-bottom: none;
+}
+
+.copyButton {
+  background: none;
+  border: none;
+  border-radius: clamp(3px, 1vw, 8px);
+  padding: clamp(3px, 1vw, 7px);
+}
+
+.copyButton:hover {
+  background: #cad2c5;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.5vw;
+  margin-right: 1vw;
+}
+
+.acceptButton,
+.declineButton {
+  padding: 0.8vh 0.8vw;
+  border-radius: clamp(2px, 10px, 10px);
+  outline: none;
+  color: #eceeeb;
+  width: 35%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5vh 0;
+  cursor: pointer;
+}
+
+.acceptButton {
+  background: #84a98c;
+  border: solid #52796f 1px;
+}
+
+.acceptButton:hover {
+  background: #52796f;
+}
+
+.acceptButtonIcon,
+.declineButtonIcon {
+  display: none;
+}
+
+.declineButton {
+  background: #c96f6f;
+  border: solid #9c4c4c 1px;
+}
+
+.declineButton:hover {
+  background: #9c4c4c;
+}
+
+@media (max-width: 768px) {
+  .acceptButton,
+  .declineButton {
+    width: 100%;
+  }
+
+  .acceptButtonIcon,
+  .declineButtonIcon {
+    display: block;
+  }
+
+  .acceptButtonLabel,
+  .declineButtonLabel {
+    display: none;
+  }
+}

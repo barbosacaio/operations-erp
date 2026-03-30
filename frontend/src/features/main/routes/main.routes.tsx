@@ -2,6 +2,7 @@ import { ProtectedRoute } from '@/routes/protected.routes';
 
 import Home from '../pages/Home';
 import CreateWorkspace from '../pages/CreateWorkspace';
+import Invites from '../pages/Invites';
 
 export const mainRoutes = [
 	{
@@ -17,6 +18,14 @@ export const mainRoutes = [
 		element: (
 			<ProtectedRoute>
 				<CreateWorkspace />
+			</ProtectedRoute>
+		),
+	},
+	{
+		path: '/invites',
+		element: (
+			<ProtectedRoute>
+				<Invites />
 			</ProtectedRoute>
 		),
 	},

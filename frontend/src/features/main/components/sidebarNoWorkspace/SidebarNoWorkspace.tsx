@@ -23,7 +23,7 @@ export const SidebarNoWorkspace = () => {
 					<Plus color="#ECEEEB" size={30} className={styles.icon} />
 					<span className={styles.label}>Create a workspace</span>
 				</NavLink>
-				<NavLink to="/" className={styles.navItem}>
+				<NavLink to="/invites" className={styles.navItem}>
 					<Inbox color="#ECEEEB" size={30} className={styles.icon} />
 					<span className={styles.label}>Invites</span>
 				</NavLink>
