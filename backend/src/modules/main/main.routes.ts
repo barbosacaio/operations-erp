@@ -4,16 +4,17 @@ import { MainController } from './main.controller';
 import { ensureAuthenticated } from '../../middlewares/ensureAuthenticated.middleware';
 import { ensureUserExists } from '../../middlewares/ensureUserExists.middleware';
 import { apiLimiter } from '../../middlewares/rateLimiter';
-// import {
-//     listWorkspaceUserSchema,
-//     addWorkspaceUserSchema,
-//     updateWorkspaceUserSchema,
-//     deleteWorkspaceUserSchema,
-// } from './user.schema';
 
 const mainRoutes = Router();
 const mainController = new MainController();
 
+mainRoutes.get(
+	'/invites',
+	ensureAuthenticated,
+	ensureUserExists,
+	apiLimiter,
+	mainController.listInvites,
+);
 mainRoutes.get(
 	'/requests',
 	ensureAuthenticated,
