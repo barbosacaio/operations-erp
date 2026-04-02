@@ -6,6 +6,7 @@ import { errorHandler } from './middlewares/errorHandler.middleware';
 import { httpLogger } from './middlewares/logger.middleware';
 
 import { authRoutes } from './routes/auth.routes';
+import { mainRoutes } from './modules/main/main.routes';
 import { workspaceRoutes } from './modules/workspace/workspace.routes';
 
 const app = express();
@@ -43,6 +44,7 @@ app.get('/health', (req, res) => {
 
 // Routes
 app.use('/auth', authRoutes);
+app.use('/user', mainRoutes);
 app.use('/workspace', workspaceRoutes);
 
 // Error handling middleware
